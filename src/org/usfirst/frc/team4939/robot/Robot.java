@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * creating this project, you must also update the build.properties file in the
  * project.
  */
+//suck my deck
 public class Robot extends TimedRobot {
 	public static final DriveSubsystem dt = new DriveSubsystem();
 	public static OI oi;
