@@ -2,11 +2,11 @@ package org.usfirst.frc.team4939.robot.commands;
 
 import org.usfirst.frc.team4939.robot.Robot;
 
-import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.Command;
 
-public class ReachBaseline extends CommandGroup {
+public class DoNothingAuto extends Command {
 
-	public ReachBaseline()
+	public DoNothingAuto()
 	{
 		requires(Robot.dt);
 	}
@@ -14,12 +14,13 @@ public class ReachBaseline extends CommandGroup {
 	@Override
 	protected void initialize() {
 		// TODO Auto-generated method stub
+
 	}
 
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-		Robot.dt.driveStraight(0.25, -0.25, 3);
+		Robot.dt.driveStraight(0, 0, 1);
 	}
 
 	@Override

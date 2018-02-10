@@ -7,13 +7,21 @@
 
 package org.usfirst.frc.team4939.robot;
 
+import org.usfirst.frc.team4939.robot.commands.DoNothingAuto;
 import org.usfirst.frc.team4939.robot.commands.ReachBaseline;
 import org.usfirst.frc.team4939.robot.subsystems.DriveSubsystem;
-import edu.wpi.first.wpilibj.TimedRobot;
+
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import javafx.scene.Camera;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -22,15 +30,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * creating this project, you must also update the build.properties file in the
  * project.
  */
-//succcc my deck
-//suck my deck
-//suck my deck 2
-// suck my deck as well
-public class Robot extends TimedRobot {
+public class Robot extends IterativeRobot {
 	public static final DriveSubsystem dt = new DriveSubsystem();
 	public static OI oi;
-
-	Command m_autonomousCommand;
+	public AnalogInput ultrasonicback = new AnalogInput(0);
+	public static Compressor compressor; 
+	public static Camera camera;
+	Command autonomousCommand;
+	public int dist = 0;
+	public double d = 0;
+	public PowerDistributionPanel pdp;
+	
+	//CameraServer server;
 	SendableChooser<Command> chooser = new SendableChooser<>();
 
 	/**
@@ -40,9 +51,21 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		oi = new OI();
+		compressor = new Compressor (0);
+		compressor.start();
+		camera = new Camera();
+        pdp = new PowerDistributionPanel();
+		
+		dt.calibrate_gyro();
+//		server.startAutomaticCapture(1);
+		
+		
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
 		chooser.addObject("Reach Baseline", new ReachBaseline());
+		chooser.addObject("Do Nothing Auto", new DoNothingAuto());
+		dist = ultrasonicback.getAverageValue();
+		d = ultrasonicback.getValue();
 	}
 
 	/**
@@ -58,6 +81,14 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		compressor.stop();
+		dist = ultrasonicback.getAverageValue();
+		d = ultrasonicback.getValue();
+	       SmartDashboard.putNumber("angle", Robot.dt.angle());
+	        SmartDashboard.putNumber("rate", Robot.dt.rate());
+	        SmartDashboard.putNumber("Average Distance", dist);
+	        SmartDashboard.putNumber("Distance", d);
+	        SmartDashboard.putNumber("gyro yaw", Robot.dt.getGyroYaw());
 	}
 
 	/**
@@ -73,8 +104,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		m_autonomousCommand = chooser.getSelected();
-
+		autonomousCommand = chooser.getSelected();
+		dt.resetGyroYaw();
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -83,8 +114,8 @@ public class Robot extends TimedRobot {
 		 */
 
 		// schedule the autonomous command (example)
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.start();
+		if (autonomousCommand != null) {
+			autonomousCommand.start();
 		}
 	}
 
@@ -94,6 +125,11 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+		SmartDashboard.putNumber("angle", Robot.dt.angle());
+        SmartDashboard.putNumber("rate", Robot.dt.rate());
+        SmartDashboard.putNumber("Average Distance", dist);
+        SmartDashboard.putNumber("Distance", d);
+        SmartDashboard.putNumber("gyro yaw", Robot.dt.getGyroYaw());
 	}
 
 	@Override
@@ -102,8 +138,8 @@ public class Robot extends TimedRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.cancel();
+		if (autonomousCommand != null) {
+			autonomousCommand.cancel();
 		}
 	}
 
@@ -113,6 +149,21 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
+		camera.control();
+        compressor.start();
+        
+        dist = ultrasonicback.getAverageValue();
+		d = ultrasonicback.getValue();
+        
+        SmartDashboard.putNumber("angle", Robot.dt.angle());
+        SmartDashboard.putNumber("rate", Robot.dt.rate());
+        SmartDashboard.putNumber("Average Distance", dist);
+        SmartDashboard.putNumber("Distance", d);
+        
+        SmartDashboard.putNumber("gyro yaw", Robot.dt.getGyroYaw());
+        
+        SmartDashboard.putNumber("Left Current", pdp.getCurrent(15) + pdp.getCurrent(14));
+        SmartDashboard.putNumber("Right Current", pdp.getCurrent(0) + pdp.getCurrent(1));
 	}
 
 	/**
@@ -120,5 +171,6 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+		LiveWindow.run();
 	}
 }

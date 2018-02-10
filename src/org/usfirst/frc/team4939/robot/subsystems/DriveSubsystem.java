@@ -5,9 +5,12 @@ import org.usfirst.frc.team4939.robot.RobotMap;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
+import org.usfirst.frc.team4939.robot.ElectricalConstants;
+import org.usfirst.frc.team4939.robot.NumberConstants;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
@@ -23,7 +26,16 @@ public class DriveSubsystem extends Subsystem {
 	public WPI_TalonSRX leftsidedriveback= new WPI_TalonSRX(RobotMap.leftDriveBack);
 	public WPI_TalonSRX rightsidedrivefront= new WPI_TalonSRX(RobotMap.rightDriveFront);
     public WPI_TalonSRX rightsidedriveback= new WPI_TalonSRX(RobotMap.rightDriveBack);
- //   public Talon lights = new Talon(RobotMap.lights);
+    /** Encoders on the drive */
+	private Encoder leftDriveEncoder;
+	private Encoder rightDriveEncoder;
+
+	/** The drive PID controller. */
+	public PIDController drivePID;
+
+	/** The gyro PID controller. */
+	public PIDController gyroPID;
+//    public WPI_TalonSRX lights = new WPI_TalonSRX(RobotMap.lights);
    
     //double kp = 0.008;
     
@@ -65,17 +77,31 @@ public class DriveSubsystem extends Subsystem {
 //        /* tuning of the Turn Controller's P, I and D coefficients.            */
 //        /* Typically, only the P value needs to be modified.                   */
 //        LiveWindow.addActuator("DriveSystem", "RotateController", turnController);
-    }
     
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
+	// Initialize Encoders
+    	// Initialize Encoders
+    			leftDriveEncoder = new Encoder(ElectricalConstants.LEFT_DRIVE_ENCODER_A,
+    					ElectricalConstants.LEFT_DRIVE_ENCODER_B, ElectricalConstants.leftDriveTrainEncoderReverse,
+    					Encoder.EncodingType.k4X);
 
-    public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
- //   	setDefaultCommand(new TankDrive());
-    }
+    			leftDriveEncoder.setDistancePerPulse(ElectricalConstants.driveEncoderDistPerTick);
 
+    			rightDriveEncoder = new Encoder(ElectricalConstants.RIGHT_DRIVE_ENCODER_A,
+    					ElectricalConstants.RIGHT_DRIVE_ENCODER_B, ElectricalConstants.rightDriveTrainEncoderReverse,
+    					Encoder.EncodingType.k4X);
+
+    			rightDriveEncoder.setDistancePerPulse(ElectricalConstants.driveEncoderDistPerTick);
+
+    			// Initialize PID controllers
+    			drivePID = new PIDController(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
+    			gyroPID = new PIDController(NumberConstants.pGyro, NumberConstants.iGyro, NumberConstants.dGyro);
+    		}
+
+    		/**
+    		 * Sets the command TankDrive as the default command for this subsystem.
+    		 */
 public void runleftsidedrive(double left)
 {
 	leftsidedrivefront.set(left);
@@ -106,13 +132,45 @@ public void driveStraight(double leftpower, double rightpower, double time)
 	}
 	Timer.delay(time);
 }
-
-public void driveStraightAngle(double leftpower, double rightpower, double time)
-{
-	this.runleftsidedrive(leftpower - getGyroYaw()*kP);
-	SmartDashboard.putNumber("angle", angle());
-	this.runrightsidedrive(rightpower - getGyroYaw()*kP);
+public double getAverageDistance() {
+	return (getLeftEncoderDist() + getRightEncoderDist()) / 2;
 }
+
+public void driveStraight(double setPoint, double speed, double setAngle, double epsilon) {
+	double output = drivePID.calcPIDDrive(setPoint, getAverageDistance(), epsilon);
+	double angle = gyroPID.calcPID(setAngle, getGyroYaw(), epsilon);
+
+	runleftsidedrive((output + angle) * speed);
+	runrightsidedrive((-output + angle) * speed);
+}
+
+/**
+ * Used to move robot without a drive PID controller at a given speed, while
+ * at the angle given.
+ *
+ * @param setAngle
+ *            The set angle in degrees
+ * @param speed
+ *            The speed (-1.0 - 1.0)
+ */
+public void driveAngle(double setAngle, double speed) {
+	double angle = gyroPID.calcPID(setAngle, getGyroYaw(), 1);
+
+	runleftsidedrive(speed + angle);
+	runrightsidedrive(-speed + angle);
+}
+
+/**
+ * Using a PID controller, turns the robot to given angle with the given
+ * speed.
+ *
+ * @param setAngle
+ *            The set angle in degrees
+ * @param speed
+ *            The speed (0.0 - 1.0)
+ * @param epsilon
+ *            How close robot should be to target to consider reached
+ */
 
 public void rotateright(double rightpower, double leftpower, double time)
 {
@@ -163,6 +221,12 @@ public double getGyroYaw() {
 
 public void resetGyroYaw() {
     ahrs.reset();
+}
+
+@Override
+protected void initDefaultCommand() {
+	// TODO Auto-generated method stub
+	
 }
 
 

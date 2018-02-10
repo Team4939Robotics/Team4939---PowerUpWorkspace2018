@@ -2,10 +2,12 @@ package org.usfirst.frc.team4939.robot.commands;
 
 import org.usfirst.frc.team4939.robot.Robot;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 
-public class TankDrive extends Command {
-
+/**
+ *
+ */
+public class TankDrive extends CommandGroup {
 
 	/** The Constant DELTA_LIMIT. */
 	private static final double DELTA_LIMIT = 0.75;
@@ -83,5 +85,4 @@ public class TankDrive extends Command {
 		// TODO Auto-generated method stub
 
 	}
-
 }
