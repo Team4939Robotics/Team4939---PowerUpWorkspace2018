@@ -41,6 +41,7 @@ public class Robot extends IterativeRobot {
 	public static final DriveSubsystem dt = new DriveSubsystem();
 	public static final PlatformSubsystem platform = new PlatformSubsystem();
 	public static final IntakeSubsystem intake = new IntakeSubsystem();
+	public static final UltrasonicSubsystem ultrasonic = new UltrasonicSubsystem();
 	public static OI oi;
 	public AnalogInput ultrasonicback = new AnalogInput(0);
 	public static Compressor compressor; 

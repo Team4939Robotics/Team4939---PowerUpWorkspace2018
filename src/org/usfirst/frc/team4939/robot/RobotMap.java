@@ -47,8 +47,8 @@ public class RobotMap {
 		public static final int gyro = 0;
 		
 	// DIO 
-		public static final int ultrasonicback = 0;
-		public static final int gearsensor = 1;
+		public static final int frontUltrasonicEcho = 1;
+		public static final int frontUltrasonicTrig = 1;
 		
 		
 }
