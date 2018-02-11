@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj.command.PIDSubsystem;
 /**
  *
  */
-public class PIDSubsystem extends PIDSubsystem {
+public class PIDSubsystem extends Subsystem {
 
     // Initialize your subsystem here
     public PIDSubsystem() {
