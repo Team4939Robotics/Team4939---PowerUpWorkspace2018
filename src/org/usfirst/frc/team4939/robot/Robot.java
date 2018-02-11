@@ -7,14 +7,17 @@
 
 package org.usfirst.frc.team4939.robot;
 
-import org.usfirst.frc.team4939.robot.subsystems.DriveSubsystem;
+import org.usfirst.frc.team4939.robot.subsystems.*;
 import org.usfirst.frc.team4939.robot.commands.auto.*;
 import org.usfirst.frc.team4939.robot.Camera;
+
 import org.opencv.core.Mat;
 import org.opencv.imgproc.Imgproc;
+
 import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
+
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
@@ -22,6 +25,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
+import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -36,6 +40,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 	public static final DriveSubsystem dt = new DriveSubsystem();
 	public static final PlatformSubsystem platform = new PlatformSubsystem();
+	public static final IntakeSubsystem intake = new IntakeSubsystem();
 	public static OI oi;
 	public AnalogInput ultrasonicback = new AnalogInput(0);
 	public static Compressor compressor; 
