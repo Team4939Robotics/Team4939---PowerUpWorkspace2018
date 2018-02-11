@@ -10,7 +10,11 @@ package org.usfirst.frc.team4939.robot;
 import org.usfirst.frc.team4939.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team4939.robot.commands.auto.*;
 import org.usfirst.frc.team4939.robot.Camera;
-
+import org.opencv.core.Mat;
+import org.opencv.imgproc.Imgproc;
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.CvSource;
+import edu.wpi.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
@@ -21,7 +25,6 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import javafx.scene.Camera;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -36,6 +39,7 @@ public class Robot extends IterativeRobot {
 	public AnalogInput ultrasonicback = new AnalogInput(0);
 	public static Compressor compressor; 
 	public static CameraServer server;
+	Camera camera = new Camera();
 	Command autonomousCommand;
 	public int dist = 0;
 	public double d = 0;
@@ -53,17 +57,34 @@ public class Robot extends IterativeRobot {
 		oi = new OI();
 		compressor = new Compressor (0);
 		compressor.start();
-		camera = new Camera();
         pdp = new PowerDistributionPanel();
 		dt.resetGyro();
 		dt.resetGyroYaw();
 		dt.calibrate_gyro();
 
 		// Camera Server
-		server = CameraServer.getInstance();
+		CameraServer.getInstance().startAutomaticCapture();
        // server.setQuality(50);
         //server.startAutomaticCapture("cam0");
 		
+		new Thread(() -> {
+            UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
+            camera.setResolution(640, 480);
+            
+            CvSink cvSink = CameraServer.getInstance().getVideo();
+            CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 640, 480);
+            
+            Mat source = new Mat();
+            Mat output = new Mat();
+            
+            while(!Thread.interrupted()) {
+                cvSink.grabFrame(source);
+                Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
+                outputStream.putFrame(output);
+            }
+        }).start();
+
+		///////////////////////////////////////////////////////////////////////////////////
 		
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", chooser);
