@@ -7,7 +7,6 @@
 
 package org.usfirst.frc.team4939.robot;
 
-
 import org.usfirst.frc.team4939.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team4939.robot.commands.auto.*;
 import org.usfirst.frc.team4939.robot.Camera;
