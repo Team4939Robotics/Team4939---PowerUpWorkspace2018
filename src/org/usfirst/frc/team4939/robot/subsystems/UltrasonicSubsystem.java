@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4939.robot.subsystems;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class UltrasonicSubsystem extends Subsystem{
@@ -23,6 +24,7 @@ public class UltrasonicSubsystem extends Subsystem{
 
     public void robotAuton() {
         measuredVoltage = ultrasonic.getVoltage();
+        SmartDashboard.putNumber("Voltage", measuredVoltage);
     }
 
     public void act() {
@@ -33,7 +35,8 @@ public class UltrasonicSubsystem extends Subsystem{
      * @return Distance to the target, in feet
      */
     public double getDistance() {
-        return measuredVoltage / SCALING_FACTOR;
+    	SmartDashboard.putNumber("Distance:", measuredVoltage / SCALING_FACTOR);
+    	return measuredVoltage / SCALING_FACTOR;
     }
 
     /**
@@ -48,5 +51,4 @@ public class UltrasonicSubsystem extends Subsystem{
 		// TODO Auto-generated method stub
 		
 	}
-
 }
