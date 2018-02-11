@@ -9,6 +9,7 @@ public class TurnCommand extends Command {
 	// Variables to hold parameter information
 	private double angle;
 	private double speed;
+	@SuppressWarnings("unused")
 	private double timeOut;
 
 	/**

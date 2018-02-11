@@ -1,11 +1,8 @@
 package org.usfirst.frc.team4939.robot;
 
-import edu.wpi.first.wpilibj.command.Command;
-
 /**
  *
  */
-//Competition
 public class NumberConstants {
 	//**************************************************************************
   //*************************** PID VALUES (DRIVE) ***************************

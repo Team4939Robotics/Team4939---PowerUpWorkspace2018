@@ -61,7 +61,7 @@ public class Robot extends IterativeRobot {
 		dt.resetGyro();
 		dt.resetGyroYaw();
 		dt.calibrate_gyro();
-		SmartDashboard.putNumber("gyro yaw", Robot.dt.getGyroYaw());
+		 SmartDashboard.putNumber("gyro yaw", Robot.dt.getGyroYaw());
 
 		// Camera Server
 		CameraServer.getInstance().startAutomaticCapture();
@@ -198,6 +198,7 @@ public class Robot extends IterativeRobot {
 	/**
 	 * This function is called periodically during test mode.
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
