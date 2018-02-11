@@ -204,6 +204,12 @@ public void pause(double time)
 	}
 	Timer.delay(time);
 }
+
+public void reset() {
+	resetEncoders();
+	resetGyro();
+}
+
 /**
  * This function returns the distance traveled from the left encoder in
  * inches.
@@ -222,6 +228,11 @@ public double getLeftEncoderDist() {
  */
 public double getRightEncoderDist() {
 	return rightDriveEncoder.getDistance();
+}
+
+public void resetEncoders() {
+	leftDriveEncoder.reset();
+	rightDriveEncoder.reset();
 }
 
 public void calibrate_gyro()
