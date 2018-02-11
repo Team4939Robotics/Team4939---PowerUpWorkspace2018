@@ -7,9 +7,10 @@
 
 package org.usfirst.frc.team4939.robot;
 
-import org.usfirst.frc.team4939.robot.commands.DoNothingAuto;
-import org.usfirst.frc.team4939.robot.commands.ReachBaseline;
+
 import org.usfirst.frc.team4939.robot.subsystems.DriveSubsystem;
+import org.usfirst.frc.team4939.robot.commands.auto.*;
+import org.usfirst.frc.team4939.robot.Camera;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CameraServer;
@@ -35,7 +36,7 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	public AnalogInput ultrasonicback = new AnalogInput(0);
 	public static Compressor compressor; 
-	public static Camera camera;
+	public static CameraServer server;
 	Command autonomousCommand;
 	public int dist = 0;
 	public double d = 0;
@@ -55,9 +56,14 @@ public class Robot extends IterativeRobot {
 		compressor.start();
 		camera = new Camera();
         pdp = new PowerDistributionPanel();
-		
+		dt.resetGyro();
+		dt.resetGyroYaw();
 		dt.calibrate_gyro();
-//		server.startAutomaticCapture(1);
+
+		// Camera Server
+		server = CameraServer.getInstance();
+       // server.setQuality(50);
+        //server.startAutomaticCapture("cam0");
 		
 		
 		// chooser.addObject("My Auto", new MyAutoCommand());
