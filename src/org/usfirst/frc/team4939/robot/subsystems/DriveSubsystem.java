@@ -7,11 +7,11 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 import org.usfirst.frc.team4939.robot.ElectricalConstants;
 import org.usfirst.frc.team4939.robot.NumberConstants;
+import org.usfirst.frc.team4939.robot.subsystems.PIDController;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -122,20 +122,23 @@ public double rate ()
 	return gyro.getRate();
 }
 
-public void driveStraight(double leftpower, double rightpower, double time)
-{
-	//gyro.reset();
-	{
-	this.runleftsidedrive(leftpower);
-	SmartDashboard.putNumber("angle", angle());
-	this.runrightsidedrive(rightpower);
-	}
-	Timer.delay(time);
-}
 public double getAverageDistance() {
 	return (getLeftEncoderDist() + getRightEncoderDist()) / 2;
 }
 
+/**
+ * Using both PID controllers (drive & gyro), the drivetrain will move to
+ * target at given speed and angle
+ *
+ * @param setPoint
+ *            The set point in inches
+ * @param speed
+ *            The speed (0.0 to 1.0)
+ * @param setAngle
+ *            The set angle in degrees
+ * @param epsilon
+ *            How close robot should be to target to consider reached
+ */
 public void driveStraight(double setPoint, double speed, double setAngle, double epsilon) {
 	double output = drivePID.calcPIDDrive(setPoint, getAverageDistance(), epsilon);
 	double angle = gyroPID.calcPID(setAngle, getGyroYaw(), epsilon);
@@ -172,22 +175,21 @@ public void driveAngle(double setAngle, double speed) {
  *            How close robot should be to target to consider reached
  */
 
-public void rotateright(double rightpower, double leftpower, double time)
-{
+public void turnDrive(double setAngle, double speed, double epsilon) {
+	double angle = gyroPID.calcPID(setAngle, getGyroYaw(), epsilon);
+
+	runleftsidedrive(angle * speed);
+	runrightsidedrive(angle * speed);
+}
+
+public void driveStraightWithoutSensors(double leftPower, double rightPower, double time) {
 	{
-	this.runleftsidedrive(leftpower);
-	this.runrightsidedrive(rightpower);
+	runleftsidedrive(leftPower);
+	runrightsidedrive(rightPower);
 	}
 	Timer.delay(time);
 }
-public void rotateleft(double rightpower, double leftpower, double time)
-{
-	{
-		this.runleftsidedrive(leftpower);
-		this.runrightsidedrive(rightpower);
-		}
-		Timer.delay(time);
-}
+
 public void stop()
 {
 	this.runleftsidedrive(0);
