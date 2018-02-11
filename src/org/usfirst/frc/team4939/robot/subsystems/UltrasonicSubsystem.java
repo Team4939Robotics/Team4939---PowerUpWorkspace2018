@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4939.robot.subsystems;
-import edu.wpi.first.wpilibj.AnalogChannel;
+import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.command.Subsystem;
 
 
 public class UltrasonicSubsystem extends Subsystem{
@@ -9,11 +10,11 @@ public class UltrasonicSubsystem extends Subsystem{
     // Port
     private static final int ULTRASONIC_CHANNEL = 2;
 
-    private final AnalogChannel ultrasonic;
+    private final AnalogInput ultrasonic;
     private double measuredVoltage;
 
-    public Ultrasonic() {
-        ultrasonic = new AnalogChannel(ULTRASONIC_CHANNEL);
+    public UltrasonicSubsystem() {
+        ultrasonic = new AnalogInput(ULTRASONIC_CHANNEL);
     }
 
     public void robotDisable() {}
@@ -41,5 +42,11 @@ public class UltrasonicSubsystem extends Subsystem{
     public double getRaw() {
         return measuredVoltage;
     }
+
+	@Override
+	protected void initDefaultCommand() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

@@ -1,8 +1,5 @@
 package org.usfirst.frc.team4939.robot.commands.auto;
 
-import org.usfirst.frc.team4939.robot.subsystems.*;
-import org.usfirst.frc.team4939.robot.commands.*;
-
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
