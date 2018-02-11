@@ -7,8 +7,8 @@
 
 package org.usfirst.frc.team4939.robot;
 
-import org.usfirst.frc.team4939.robot.commands.DoNothingAuto;
-import org.usfirst.frc.team4939.robot.commands.ReachBaseline;
+import org.usfirst.frc.team4939.robot.commands.auto.DoNothingAuto;
+import org.usfirst.frc.team4939.robot.commands.auto.ReachBaseline;
 import org.usfirst.frc.team4939.robot.subsystems.DriveSubsystem;
 
 import edu.wpi.first.wpilibj.AnalogInput;
