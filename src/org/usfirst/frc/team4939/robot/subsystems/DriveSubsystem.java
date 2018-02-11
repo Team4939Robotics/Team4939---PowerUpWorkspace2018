@@ -21,10 +21,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class DriveSubsystem extends Subsystem {
 	ADXRS450_Gyro gyro = new ADXRS450_Gyro();
-	public WPI_TalonSRX leftsidedrivefront = new WPI_TalonSRX(RobotMap.leftDriveFront);
-	public WPI_TalonSRX leftsidedriveback= new WPI_TalonSRX(RobotMap.leftDriveBack);
-	public WPI_TalonSRX rightsidedrivefront= new WPI_TalonSRX(RobotMap.rightDriveFront);
-    public WPI_TalonSRX rightsidedriveback= new WPI_TalonSRX(RobotMap.rightDriveBack);
+	public static WPI_TalonSRX leftsidedrivefront = new WPI_TalonSRX(RobotMap.leftDriveFront);
+	public static WPI_TalonSRX leftsidedriveback= new WPI_TalonSRX(RobotMap.leftDriveBack);
+	public static WPI_TalonSRX rightsidedrivefront= new WPI_TalonSRX(RobotMap.rightDriveFront);
+    public static WPI_TalonSRX rightsidedriveback= new WPI_TalonSRX(RobotMap.rightDriveBack);
     /** Encoders on the drive */
 	private Encoder leftDriveEncoder;
 	private Encoder rightDriveEncoder;
@@ -44,6 +44,8 @@ public class DriveSubsystem extends Subsystem {
     static final double kF = 0.00;
     
     static final double kToleranceDegrees = 2.0f;
+    
+    
     
     private AHRS ahrs;
     PIDController turnController;
@@ -207,6 +209,14 @@ public void pause(double time)
 public void reset() {
 	resetEncoders();
 	resetGyro();
+}
+
+public static double getLeftCurrent() {
+	return leftsidedrivefront.getOutputCurrent() + leftsidedriveback.getOutputCurrent();
+}
+
+public static double getRightCurrent() {
+	return rightsidedrivefront.getOutputCurrent() + rightsidedriveback.getOutputCurrent();
 }
 
 /**
