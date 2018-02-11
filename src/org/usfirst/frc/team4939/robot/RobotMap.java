@@ -28,14 +28,16 @@ public class RobotMap {
 		public static final int leftDriveBack = 1;
 		public static final int rightDriveBack = 2;
 		public static final int rightDriveFront = 4;
+		public static final int leftArmIntake = 7;
+		public static final int rightArmIntake = 8;
 		public static final int CIMTop = 5;
 		public static final int CIMBottom = 6;
 		
 		// Solenoids 
-		public static final int release = 0;
-		public static final int reset = 1;
-		public static final int ramp = 2;
-		public static final int ramp_in_frame = 3;
+		public static final int LeftPlatformPiston = 0;
+		public static final int RightPlatformPiston = 1;
+		public static final int leftIntakePiston = 2;
+		public static final int rightIntakePiston = 3;
 		
 	//PWM
 		public static final int intake775 = 0;
@@ -47,5 +49,6 @@ public class RobotMap {
 	// DIO 
 		public static final int ultrasonicback = 0;
 		public static final int gearsensor = 1;
+		
 		
 }
