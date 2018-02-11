@@ -61,6 +61,7 @@ public class Robot extends IterativeRobot {
 		dt.resetGyro();
 		dt.resetGyroYaw();
 		dt.calibrate_gyro();
+		SmartDashboard.putNumber("gyro yaw", Robot.dt.getGyroYaw());
 
 		// Camera Server
 		CameraServer.getInstance().startAutomaticCapture();
@@ -90,6 +91,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putData("Auto mode", chooser);
 		chooser.addObject("Reach Baseline", new ReachBaseline());
 		chooser.addObject("Do Nothing Auto", new DoNothingAuto());
+		chooser.addObject("LeftSwitch", new LeftSwitch());
+		chooser.addObject("RightSwitch", new RightSwitch());
 		dist = ultrasonicback.getAverageValue();
 		d = ultrasonicback.getValue();
 	}
