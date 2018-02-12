@@ -18,14 +18,12 @@ import edu.wpi.cscore.CvSink;
 import edu.wpi.cscore.CvSource;
 import edu.wpi.cscore.UsbCamera;
 
-import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -43,13 +41,11 @@ public class Robot extends IterativeRobot {
 	public static final IntakeSubsystem intake = new IntakeSubsystem();
 	public static final UltrasonicSubsystem ultrasonic = new UltrasonicSubsystem();
 	public static OI oi;
-	public AnalogInput ultrasonicback = new AnalogInput(0);
 	public static Compressor compressor; 
 	public static CameraServer server;
 	Camera camera = new Camera();
 	Command autonomousCommand;
-	public int dist = 0;
-	public double d = 0;
+	public static double ultrasonicDistance;
 	public PowerDistributionPanel pdp;
 	
 	//CameraServer server;
@@ -100,8 +96,6 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Do Nothing Auto", new DoNothingAuto());
 		chooser.addObject("LeftSwitch", new LeftSwitch());
 		chooser.addObject("RightSwitch", new RightSwitch());
-		dist = ultrasonicback.getAverageValue();
-		d = ultrasonicback.getValue();
 	}
 
 	/**
@@ -118,12 +112,8 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 		compressor.stop();
-		dist = ultrasonicback.getAverageValue();
-		d = ultrasonicback.getValue();
 	       SmartDashboard.putNumber("angle", Robot.dt.angle());
 	        SmartDashboard.putNumber("rate", Robot.dt.rate());
-	        SmartDashboard.putNumber("Average Distance", dist);
-	        SmartDashboard.putNumber("Distance", d);
 	        SmartDashboard.putNumber("gyro yaw", Robot.dt.getGyroYaw());
 	}
 
@@ -163,8 +153,6 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 		SmartDashboard.putNumber("angle", Robot.dt.angle());
         SmartDashboard.putNumber("rate", Robot.dt.rate());
-        SmartDashboard.putNumber("Average Distance", dist);
-        SmartDashboard.putNumber("Distance", d);
         SmartDashboard.putNumber("gyro yaw", Robot.dt.getGyroYaw());
 	}
 
@@ -188,13 +176,8 @@ public class Robot extends IterativeRobot {
 		camera.control();
         compressor.start();
         
-        dist = ultrasonicback.getAverageValue();
-		d = ultrasonicback.getValue();
-        
         SmartDashboard.putNumber("angle", Robot.dt.angle());
         SmartDashboard.putNumber("rate", Robot.dt.rate());
-        SmartDashboard.putNumber("Average Distance", dist);
-        SmartDashboard.putNumber("Distance", d);
         
         SmartDashboard.putNumber("gyro yaw", Robot.dt.getGyroYaw());
         
