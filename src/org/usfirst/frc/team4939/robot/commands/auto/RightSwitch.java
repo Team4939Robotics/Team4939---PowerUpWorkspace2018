@@ -1,5 +1,9 @@
 package org.usfirst.frc.team4939.robot.commands.auto;
 
+import org.usfirst.frc.team4939.robot.Robot;
+import org.usfirst.frc.team4939.robot.commands.BoxOuttake;
+import org.usfirst.frc.team4939.robot.commands.GetUltrasonicDistance;
+
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
@@ -26,5 +30,11 @@ public class RightSwitch extends CommandGroup {
         // arm.
     	addSequential(new DriveCommand(168, 0.5, 0, 2.5));
     	addSequential(new TurnCommand(-90, 0.5, 2.5));
+    	addSequential(new GetUltrasonicDistance());
+    	addSequential(new DriveCommand(Robot.ultrasonicDistance, 0.5, 0, 2.5));
+    	addSequential(new BoxOuttake());
+    	addSequential(new DriveCommand(-Robot.ultrasonicDistance, 0.5, 0, 2.5));
+    	addSequential(new TurnCommand(0, 0.5, 2.5));
+    	addSequential(new DriveCommand(40, 0.5, 0, 2.5));
     }
 }

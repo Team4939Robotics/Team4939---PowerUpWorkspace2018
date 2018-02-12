@@ -22,21 +22,25 @@ public class IntakeSubsystem extends Subsystem{
     
     //INTAKE PNEUMATICS
 
-    	public DoubleSolenoid boxMechOpeningPistons = new DoubleSolenoid(RobotMap.leftIntakePiston, RobotMap.rightIntakePiston);
-    	public boolean boxMechOpen = false;
-    	protected void initDefaultCommand() {
-    		// TODO Auto-generated method stub
-    		
-    	}
-    	public void openBoxMech ()
-    	{
-    		this.boxMechOpeningPistons.set(DoubleSolenoid.Value.kForward);
-    		this.boxMechOpen = false;
-    	}
+    public DoubleSolenoid boxMechOpeningPistons = new DoubleSolenoid(RobotMap.leftIntakePiston, RobotMap.rightIntakePiston);
+    public boolean boxMechOpen = false;
+    protected void initDefaultCommand() {
+    	// TODO Auto-generated method stub
+    }
     	
-    	public void closeBoxMech()
-    	{
-    		this.boxMechOpeningPistons.set(DoubleSolenoid.Value.kReverse);
-    		this.boxMechOpen = true;
-    	}
+    public void openBoxMech () {
+    	this.boxMechOpeningPistons.set(DoubleSolenoid.Value.kForward);
+    	this.boxMechOpen = false;
+    }
+    	
+    public void closeBoxMech() {
+    	this.boxMechOpeningPistons.set(DoubleSolenoid.Value.kReverse);
+    	this.boxMechOpen = true;
+    }
+    
+    public void useIntake(double speed) {
+    	leftarm.set(speed);
+    	rightarm.set(-speed);
+    }
+    	
 }
