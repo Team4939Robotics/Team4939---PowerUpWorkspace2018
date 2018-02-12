@@ -33,6 +33,7 @@ public class LeftSwitch extends CommandGroup {
     	addSequential(new DriveCommand(Robot.ultrasonicDistance, 0.5, 0, 2.5));
     	addSequential(new BoxOuttake());
     	addSequential(new DriveCommand(-Robot.ultrasonicDistance, 0.5, 0, 2.5));
+    	addParallel(new BoxStopIntake());
     	addSequential(new TurnCommand(0, 0.5, 2.5));
     	addSequential(new DriveCommand(40, 0.5, 0, 2.5));
     }
