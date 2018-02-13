@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class RightSwitch extends CommandGroup {
+public class RightSwitchToNull extends CommandGroup {
 
-    public RightSwitch() {
+    public RightSwitchToNull() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -35,6 +35,7 @@ public class RightSwitch extends CommandGroup {
     	addSequential(new DriveCommand(-Robot.ultrasonicDistance, 0.5, 0, 2.5));
     	addParallel(new BoxStopIntake());
     	addSequential(new TurnCommand(90, 0.5, 2.5));
-    	addSequential(new DriveCommand(40, 0.5, 0, 2.5));
+    	addSequential(new DriveCommand(132, 0.5, 0, 2.5));
+    	
     }
 }
