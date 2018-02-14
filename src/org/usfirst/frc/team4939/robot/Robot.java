@@ -40,6 +40,7 @@ public class Robot extends IterativeRobot {
 	public static final PlatformSubsystem platform = new PlatformSubsystem();
 	public static final IntakeSubsystem intake = new IntakeSubsystem();
 	public static final UltrasonicSubsystem ultrasonic = new UltrasonicSubsystem();
+	public static final ClimbSubsystem climber = new ClimbSubsystem();
 	public static OI oi;
 	public static Compressor compressor; 
 	public static CameraServer server;
