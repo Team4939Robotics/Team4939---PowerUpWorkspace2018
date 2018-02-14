@@ -111,8 +111,8 @@ public void runleftsidedrive(double left)
 }
 public void runrightsidedrive(double right)
 { 
-	this.rightsidedriveback.set(right);
-	this.rightsidedrivefront.set(right);
+	rightsidedriveback.set(right);
+	rightsidedrivefront.set(right);
 }
 public double angle()
 {
