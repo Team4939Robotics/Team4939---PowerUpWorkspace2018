@@ -108,7 +108,6 @@ public void runleftsidedrive(double leftdrivestick)
 {
 	leftsidedrivefront.set(leftdrivestick);
 	leftsidedriveback.set(leftdrivestick);
-//	this.lights.set(left);
 }
 public void runrightsidedrive(double rightdrivestick)
 { 
@@ -141,12 +140,14 @@ public double getAverageDistance() {
  * @param epsilon
  *            How close robot should be to target to consider reached
  */
-public void driveStraight(double setPoint, double speed, double setAngle, double epsilon) {
+// only need setpoint and tolerance to drive straight a distance
+public void driveStraight(double setPoint, double epsilon) {
 	double output = drivePID.calcPIDDrive(setPoint, getAverageDistance(), epsilon);
-	double angle = gyroPID.calcPID(setAngle, getGyroYaw(), epsilon);
+	
+//	double angle = gyroPID.calcPID(setAngle, getGyroYaw(), epsilon); // don't need this to drive straight
 
-	runleftsidedrive((output + angle) * speed);
-	runrightsidedrive((-output + angle) * speed);
+	runleftsidedrive(output - (angle()*kP)); 
+	runrightsidedrive((output*-1) + (angle()*kP));
 }
 
 /**
@@ -158,11 +159,11 @@ public void driveStraight(double setPoint, double speed, double setAngle, double
  * @param speed
  *            The speed (-1.0 - 1.0)
  */
-public void driveAngle(double setAngle, double speed) {
-	double angle = gyroPID.calcPID(setAngle, getGyroYaw(), 1);
+public void driveAngle(double setAngle) {
+	double outputcontroller = gyroPID.calcPID(setAngle, getGyroYaw(), 1);
 
-	runleftsidedrive(speed + angle);
-	runrightsidedrive(-speed + angle);
+	runleftsidedrive(outputcontroller);
+	runrightsidedrive(outputcontroller*-1);
 }
 
 /**
@@ -176,7 +177,7 @@ public void driveAngle(double setAngle, double speed) {
  * @param epsilon
  *            How close robot should be to target to consider reached
  */
-
+// This is the same thing as driveAngle()
 public void turnDrive(double setAngle, double speed, double epsilon) {
 	double angle = gyroPID.calcPID(setAngle, getGyroYaw(), epsilon);
 

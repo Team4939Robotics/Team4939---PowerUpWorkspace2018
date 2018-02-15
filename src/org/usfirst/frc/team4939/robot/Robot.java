@@ -91,11 +91,15 @@ public class Robot extends IterativeRobot {
 		///////////////////////////////////////////////////////////////////////////////////
 		
 		// chooser.addObject("My Auto", new MyAutoCommand());
+		
+		// You want to go to closest Switch based on start position. Could create a new parameter or new auto mode
+		
 		SmartDashboard.putData("Auto mode", chooser);
-		chooser.addObject("Reach Baseline", new ReachBaseline());
+		chooser.addDefault("Reach Baseline", new ReachBaseline());
 		chooser.addObject("Do Nothing Auto", new DoNothingAuto());
-		chooser.addObject("LeftSwitch", new LeftSwitch());
-		chooser.addObject("RightSwitch", new RightSwitch());
+		chooser.addObject("LeftSwitch Left Start", new LeftSwitch());
+		chooser.addObject("RightSwitch Right Start", new RightSwitch());
+		chooser.addObject("Center Start", new CenterAuto());
 	}
 
 	/**
@@ -113,6 +117,8 @@ public class Robot extends IterativeRobot {
 		Scheduler.getInstance().run();
 		compressor.stop();
 	    updateSmartdashboard();
+	    
+	    
 	}
 
 	/**
@@ -214,5 +220,9 @@ public class Robot extends IterativeRobot {
 	
 	public void stopCompressor(){
 		compressor.stop();
+	}
+	
+	public void findScoringSide(){
+		
 	}
 }
