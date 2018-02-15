@@ -39,17 +39,18 @@ public class Robot extends IterativeRobot {
 	public static final DriveSubsystem dt = new DriveSubsystem();
 	public static final PlatformSubsystem platform = new PlatformSubsystem();
 	public static final IntakeSubsystem intake = new IntakeSubsystem();
-	public static final UltrasonicSubsystem ultrasonic = new UltrasonicSubsystem();
+	//public static final UltrasonicSubsystem ultrasonic = new UltrasonicSubsystem();
 	public static final ClimbSubsystem climber = new ClimbSubsystem();
 	public static OI oi;
 	public static Compressor compressor; 
 	public static CameraServer server;
 	Camera camera = new Camera();
-	Command autonomousCommand;
 	public static double ultrasonicDistance;
 	public PowerDistributionPanel pdp;
 	
 	//CameraServer server;
+
+	Command autonomousCommand;
 	SendableChooser<Command> chooser = new SendableChooser<>();
 
 	/**
@@ -91,11 +92,11 @@ public class Robot extends IterativeRobot {
 		///////////////////////////////////////////////////////////////////////////////////
 		
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", chooser);
+		chooser.addDefault("Do Nothing Auto", new DoNothingAuto());
 		chooser.addObject("Reach Baseline", new ReachBaseline());
-		chooser.addObject("Do Nothing Auto", new DoNothingAuto());
 		chooser.addObject("LeftSwitch", new LeftSwitch());
 		chooser.addObject("RightSwitch", new RightSwitch());
+		SmartDashboard.putData("Auto mode", chooser);
 	}
 
 	/**
@@ -196,7 +197,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Right enc value", Robot.dt.getRightEncoderDist());
         SmartDashboard.putNumber("Average enc value", Robot.dt.getAverageDistance());
         
-        SmartDashboard.putNumber("Ultrasonic Distance", Robot.ultrasonic.getDistance());
+        //SmartDashboard.putNumber("Ultrasonic Distance", Robot.ultrasonic.getDistance());
 	}
 	
 	public void calibratesensors(){
