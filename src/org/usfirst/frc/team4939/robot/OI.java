@@ -12,6 +12,8 @@ package org.usfirst.frc.team4939.robot;
  * interface to the commands and command groups that allow control of the robot.
  */
 
+import org.usfirst.frc.team4939.robot.commands.*;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -51,7 +53,39 @@ public class OI {
 	// intialize joysticks
 	public Joystick DriverController = new Joystick(1);
 	public Joystick ShooterController = new Joystick(2);
+	
+	private button BoxClose = new JoystickButton();
+	private button BoxOpen = new JoystickButton();
+	private button BoxIntake = new JoystickButton();
+	private button BoxOuttake = new JoystickButton();
+	private button BoxStopIntake = new JoystickButton();
+	
+	private button ClimberRaise = new JoystickButton();
+	private button ClimberClimb = new JoystickButton();
+	private button ClimberStop = new JoystickButton();
+	private button ClimberLock = new JoystickButton();
+	private button ClimberUnlock = new JoystickButton();
+	
+	private button PlatformDown = new JoystickButton();
+	private button PlatformUp = new JoystickButton();
 
+	public OI() {
+		this.BoxClose.whenPressed(new BoxClose());
+		this.BoxOpen.whenPressed(new BoxOpen());
+		this.BoxIntake.whenPressed(new BoxIntake());
+		this.BoxOuttake.whenPressed(new BoxOuttake());
+		this.BoxStopIntake.whenPressed(new BoxStopIntake());
+		
+		this.ClimberRaise.whenPressed(new ClimberRaise());
+		this.ClimberClimb.whenPressed(new ClimberClimb());
+		this.ClimberStop.whenPressed(new ClimberStop());
+		this.ClimberLock.whenPressed(new ClimberLock());
+		this.ClimberUnlock.whenPressed(new ClimberUnlock());
+		
+		this.PlatformDown.whenPressed(new PlatformDown());
+		this.PlatformUp.whenPressed(new PlatformUp());
+	}
+	
 	public double left() {
 		double leftdrivestick = DriverController.getRawAxis(1);
 		if (Math.abs(leftdrivestick) < 0.05)
