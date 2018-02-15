@@ -79,7 +79,7 @@ public class OI {
 		this.ClimberRaise.whenPressed(new ClimberRaise());
 		this.ClimberClimb.whenPressed(new ClimberClimb());
 		this.ClimberStop.whenPressed(new ClimberStop());
-		this.ClimberLock.whenPressed(new ClimberLock();
+		this.ClimberLock.whenPressed(new ClimberLock());
 		this.ClimberUnlock.whenPressed(new ClimberUnlock());
 		
 		this.PlatformDown.whenPressed(new PlatformDown());
