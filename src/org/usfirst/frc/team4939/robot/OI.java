@@ -53,19 +53,19 @@ public class OI {
 	public Joystick ShooterController = new Joystick(2);
 
 	public double left() {
-		double joy = DriverController.getRawAxis(1);
-		if (Math.abs(joy) < 0.05)
+		double leftdrivestick = DriverController.getRawAxis(1);
+		if (Math.abs(leftdrivestick) < 0.05)
 			return 0.0;
 		else
-			return joy;
+			return leftdrivestick;
 	}
 
 	public double right() {
-		double joy = DriverController.getRawAxis(5);
-		if (Math.abs(joy) < 0.05)
+		double rightdrivestick = DriverController.getRawAxis(5);
+		if (Math.abs(rightdrivestick) < 0.05)
 			return 0.0;
 		else
-			return joy;
+			return rightdrivestick;
 	}
 
 	public boolean VisionEngage() {

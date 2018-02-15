@@ -60,12 +60,11 @@ public class Robot extends IterativeRobot {
 	public void robotInit() {
 		oi = new OI();
 		compressor = new Compressor (0);
-		compressor.start();
+	//	compressor.start();
         pdp = new PowerDistributionPanel();
-		dt.resetGyro();
-		dt.resetGyroYaw();
-		dt.calibrate_gyro();
-		 SmartDashboard.putNumber("gyro yaw", Robot.dt.getGyroYaw());
+	//	resetgyro();
+		calibratesensors();
+	updateSmartdashboard();
 
 		// Camera Server
 		CameraServer.getInstance().startAutomaticCapture();
@@ -113,9 +112,7 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
 		compressor.stop();
-	       SmartDashboard.putNumber("angle", Robot.dt.angle());
-	        SmartDashboard.putNumber("rate", Robot.dt.rate());
-	        SmartDashboard.putNumber("gyro yaw", Robot.dt.getGyroYaw());
+	    updateSmartdashboard();
 	}
 
 	/**
@@ -132,7 +129,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		autonomousCommand = chooser.getSelected();
-		dt.resetGyroYaw();
+		resetgyro();
+		Robot.dt.resetEncoders();
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -152,9 +150,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		SmartDashboard.putNumber("angle", Robot.dt.angle());
-        SmartDashboard.putNumber("rate", Robot.dt.rate());
-        SmartDashboard.putNumber("gyro yaw", Robot.dt.getGyroYaw());
+		updateSmartdashboard();
 	}
 
 	@Override
@@ -175,15 +171,8 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
 		camera.control();
-        compressor.start();
-        
-        SmartDashboard.putNumber("angle", Robot.dt.angle());
-        SmartDashboard.putNumber("rate", Robot.dt.rate());
-        
-        SmartDashboard.putNumber("gyro yaw", Robot.dt.getGyroYaw());
-        
-        SmartDashboard.putNumber("Left Current", DriveSubsystem.getLeftCurrent());
-        SmartDashboard.putNumber("Right Current", DriveSubsystem.getRightCurrent());
+        startCompressor();
+        updateSmartdashboard();
 	}
 
 	/**
@@ -193,5 +182,37 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void testPeriodic() {
 		LiveWindow.run();
+	}
+	
+	public void updateSmartdashboard(){
+		SmartDashboard.putNumber("angle", Robot.dt.angle());
+        SmartDashboard.putNumber("rate", Robot.dt.rate());
+        SmartDashboard.putNumber("gyro yaw", Robot.dt.getGyroYaw());
+        
+        SmartDashboard.putNumber("Left Current", DriveSubsystem.getLeftCurrent());
+        SmartDashboard.putNumber("Right Current", DriveSubsystem.getRightCurrent());
+        
+        SmartDashboard.putNumber("Left enc value", Robot.dt.getLeftEncoderDist());
+        SmartDashboard.putNumber("Right enc value", Robot.dt.getRightEncoderDist());
+        SmartDashboard.putNumber("Average enc value", Robot.dt.getAverageDistance());
+        
+        SmartDashboard.putNumber("Ultrasonic Distance", Robot.ultrasonic.getDistance());
+	}
+	
+	public void calibratesensors(){
+		Robot.dt.calibrate_gyro();
+	}
+	
+	public void resetgyro(){
+		Robot.dt.resetGyroYaw();
+		Robot.dt.resetGyro();
+	}
+	
+	public void startCompressor(){
+		compressor.start();
+	}
+	
+	public void stopCompressor(){
+		compressor.stop();
 	}
 }

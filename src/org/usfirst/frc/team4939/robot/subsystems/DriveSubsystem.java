@@ -2,6 +2,7 @@
 package org.usfirst.frc.team4939.robot.subsystems;
 
 import org.usfirst.frc.team4939.robot.RobotMap;
+import org.usfirst.frc.team4939.robot.commands.TankDrive;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
@@ -14,6 +15,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -103,16 +105,15 @@ public class DriveSubsystem extends Subsystem {
     		/**
     		 * Sets the command TankDrive as the default command for this subsystem.
     		 */
-public void runleftsidedrive(double left)
+public void runleftsidedrive(double leftdrivestick)
 {
-	leftsidedrivefront.set(left);
-	leftsidedriveback.set(left);
+	leftsidedriveback.set(leftdrivestick);
 //	this.lights.set(left);
 }
-public void runrightsidedrive(double right)
+public void runrightsidedrive(double rightdrivestick)
 { 
-	rightsidedriveback.set(right);
-	rightsidedrivefront.set(right);
+	rightsidedriveback.set(rightdrivestick);
+	rightsidedrivefront.set(rightdrivestick);
 }
 public double angle()
 {
@@ -268,7 +269,7 @@ public void resetGyroYaw() {
 @Override
 protected void initDefaultCommand() {
 	// TODO Auto-generated method stub
-	
+	setDefaultCommand(new TankDrive());
 }
 
 
