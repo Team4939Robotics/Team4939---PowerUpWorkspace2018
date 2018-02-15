@@ -8,8 +8,8 @@ public class DriveCommand extends Command {
 
 	// Variables used to store parameter information
 	private double distance;
-	private double speed;
-	private double angle;
+//	private double speed;
+//	private double angle;
 	private double timeOut;
 	private double epsilon;
 
@@ -45,8 +45,8 @@ public class DriveCommand extends Command {
 	 */
 	public DriveCommand(double setPoint, double speed, double angle, double timeOut, double epsilon) {
 		this.distance = setPoint;
-		this.speed = speed;
-		this.angle = angle;
+//		this.speed = speed;
+//		this.angle = angle;
 		this.timeOut = timeOut;
 		this.epsilon = epsilon;
 		requires(Robot.dt);
@@ -60,7 +60,7 @@ public class DriveCommand extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.dt.driveStraight(distance, speed, angle, epsilon);
+		Robot.dt.driveStraight(distance, epsilon);
 	}
 
 	// Command will finish when it is timed out

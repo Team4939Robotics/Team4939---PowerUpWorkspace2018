@@ -20,6 +20,7 @@ import edu.wpi.cscore.UsbCamera;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
@@ -47,6 +48,13 @@ public class Robot extends IterativeRobot {
 	Camera camera = new Camera();
 	public static double ultrasonicDistance;
 	public PowerDistributionPanel pdp;
+	
+	public boolean nearRight;
+	public boolean nearLeft;
+	public boolean scaleRight;
+	public boolean scaleLeft;
+	public boolean farRight;
+	public boolean farleft;
 	
 	//CameraServer server;
 
@@ -92,7 +100,6 @@ public class Robot extends IterativeRobot {
 		///////////////////////////////////////////////////////////////////////////////////
 		
 		// chooser.addObject("My Auto", new MyAutoCommand());
-<<<<<<< HEAD
 		
 		// You want to go to closest Switch based on start position. Could create a new parameter or new auto mode
 		
@@ -102,13 +109,6 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("LeftSwitch Left Start", new LeftSwitch());
 		chooser.addObject("RightSwitch Right Start", new RightSwitch());
 		chooser.addObject("Center Start", new CenterAuto());
-=======
-		chooser.addDefault("Do Nothing Auto", new DoNothingAuto());
-		chooser.addObject("Reach Baseline", new ReachBaseline());
-		chooser.addObject("LeftSwitch", new LeftSwitch());
-		chooser.addObject("RightSwitch", new RightSwitch());
-		SmartDashboard.putData("Auto mode", chooser);
->>>>>>> f37599130dd340c7b99ab0bba0cea5addb61902c
 	}
 
 	/**
@@ -211,6 +211,13 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Right enc value", Robot.dt.getRightEncoderDist());
         SmartDashboard.putNumber("Average enc value", Robot.dt.getAverageDistance());
         
+        SmartDashboard.putBoolean("Close Switch Right", nearRight);
+        SmartDashboard.putBoolean("Close Switch Left", nearLeft);
+        SmartDashboard.putBoolean("Scale Right", scaleRight);
+        SmartDashboard.putBoolean("Scale Left", scaleLeft);
+        SmartDashboard.putBoolean("Far Switch Right", farRight);
+        SmartDashboard.putBoolean("Far Switch Left", farleft);
+        
         //SmartDashboard.putNumber("Ultrasonic Distance", Robot.ultrasonic.getDistance());
 	}
 	
@@ -232,6 +239,30 @@ public class Robot extends IterativeRobot {
 	}
 	
 	public void findScoringSide(){
+		String gameData;
+		char nearSwitch;
+		char opposingSwitch;
+		char scaleside;
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+
+		nearSwitch = gameData.charAt(0);
+		scaleside = gameData.charAt(1);
+		opposingSwitch = gameData.charAt(2);
 		
+		if(nearSwitch == 'R'){
+			nearRight = true;
+			nearLeft = false;
+		}
+		if (scaleside == 'R'){
+			scaleRight = true;
+			scaleLeft = false;
+		}
+		if (opposingSwitch == 'R'){
+			farRight = true;
+			farleft = false;
+		}
+		
+		  
+        
 	}
 }
