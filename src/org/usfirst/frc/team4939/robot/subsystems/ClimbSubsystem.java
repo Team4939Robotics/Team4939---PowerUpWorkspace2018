@@ -2,8 +2,7 @@ package org.usfirst.frc.team4939.robot.subsystems;
 
 import org.usfirst.frc.team4939.robot.RobotMap;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -11,13 +10,15 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class ClimbSubsystem extends Subsystem {
-	public static WPI_TalonSRX climberLift = new WPI_TalonSRX(RobotMap.climbMotor);
+	public static Spark climbMotor1 = new Spark(RobotMap.climbMotor1);
+	public static Spark climbMotor2 = new Spark(RobotMap.climbMotor2);
 	
 	public Solenoid lockMech = new Solenoid(RobotMap.lockPiston);
 	public boolean climberLocked = false;
 	
 	public void useClimber(double speed) {
-		climberLift.set(speed);
+		climbMotor1.set(speed);
+		climbMotor2.set(speed);
 	}
 	
 	public void lockClimber() {

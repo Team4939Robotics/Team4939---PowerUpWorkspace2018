@@ -35,7 +35,6 @@ public class RobotMap {
 		public static final int CIMTop = 5;
 		public static final int CIMBottom = 6;
 		
-		public static final int climbMotor = 9;
 		
 	// Solenoids 
 		public static final int LeftPlatformPiston = 0;
@@ -49,6 +48,9 @@ public class RobotMap {
 	//PWM
 		public static final int intake775 = 0;
 //		public static final int lights = 1;
+
+		public static final int climbMotor1 = 2;
+		public static final int climbMotor2 = 3;
 		
 	// SPI Gyro
 		public static final int gyro = 0;

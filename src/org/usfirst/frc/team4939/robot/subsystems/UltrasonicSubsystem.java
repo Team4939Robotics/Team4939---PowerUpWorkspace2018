@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class UltrasonicSubsystem extends Subsystem{
 
-    public static Ultrasonic ultrasonicFront = new Ultrasonic(RobotMap.frontUltrasonicEcho, RobotMap.frontUltrasonicTrig);
+    public static Ultrasonic ultrasonicFront = new Ultrasonic(RobotMap.frontUltrasonicTrig, RobotMap.frontUltrasonicEcho);
     /**
-     * @return Distance to the target, in feet
+     * @return Distance to the target, in inches
      */
     public double getDistance() {
     	return ultrasonicFront.getRangeInches();
