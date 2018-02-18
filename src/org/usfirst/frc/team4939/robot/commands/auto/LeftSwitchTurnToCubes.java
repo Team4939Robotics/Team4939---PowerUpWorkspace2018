@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class LeftSwitchTurnToCubes extends CommandGroup{
 	public LeftSwitchTurnToCubes() {
         
-		addParallel(new PlatformDown());
+		//addParallel(new PlatformDown());
     	addSequential(new DriveCommand(168, 0.5, 0, 2.5));
     	addSequential(new TurnCommand(90, 0.5, 2.5));
     	

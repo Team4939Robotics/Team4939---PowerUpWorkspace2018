@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class StraightToSwitch extends CommandGroup {
 
     public StraightToSwitch() {
-    	addSequential(new PlatformDown());
+    	//addSequential(new PlatformDown());
     	addSequential(new PauseCommand(2));
     	
     	addParallel(new PlatformUp());
