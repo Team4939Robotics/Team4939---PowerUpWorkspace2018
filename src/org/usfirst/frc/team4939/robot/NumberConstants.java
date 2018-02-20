@@ -34,6 +34,11 @@ public class NumberConstants {
 		
 	public static final double cameraOffset								= 2.5;
 	
+	
+	
+	//******MISC******
+	public static final double ultrasonicDepth = 5; //Distance between ultrasonic and front edge of bumper
+	
 }
 		
 	

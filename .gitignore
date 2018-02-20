@@ -45,3 +45,6 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+src/org/usfirst/frc/team4939/robot/commands/ClimberUnlock.java
+src/org/usfirst/frc/team4939/robot/RobotMap.java
+.classpath

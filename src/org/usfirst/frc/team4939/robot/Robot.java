@@ -211,6 +211,8 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Right enc value", Robot.dt.getRightEncoderDist());
         SmartDashboard.putNumber("Average enc value", Robot.dt.getAverageDistance());
         
+        SmartDashboard.putBoolean("Pressure Low?", Robot.compressor.getPressureSwitchValue());
+        
         SmartDashboard.putBoolean("Close Switch Right", nearRight);
         SmartDashboard.putBoolean("Close Switch Left", nearLeft);
         SmartDashboard.putBoolean("Scale Right", scaleRight);
