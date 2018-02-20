@@ -1,5 +1,5 @@
 package org.usfirst.frc.team4939.robot.subsystems;
-
+/*
 import org.usfirst.frc.team4939.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.Spark;
@@ -31,10 +31,11 @@ public class ClimbSubsystem extends Subsystem {
 		this.lockMech.set(DoubleSolenoid.Value.kReverse);
 		this.climberLocked = false;
 	}
-	*/
+	
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
     }
+    
 }
 */

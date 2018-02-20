@@ -7,11 +7,11 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DriveCommand extends Command {
 
 	// Variables used to store parameter information
-	private double distance;
-	private double const_multiplier;
+	//private double distance;
+	//private double const_multiplier;
 //	private double angle;
 	private double timeOut;
-	private double epsilon;
+	//private double epsilon;
 	
 	private double leftPower;
 	private double rightPower;

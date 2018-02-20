@@ -108,7 +108,6 @@ public class Robot extends IterativeRobot {
 		chooser.addObject("Do Nothing Auto", new DoNothingAuto());
 		chooser.addObject("LeftSwitch Left Start", new LeftSwitch());
 		chooser.addObject("RightSwitch Right Start", new RightSwitch());
-		chooser.addObject("Center Start", new CenterAuto());
 	}
 
 	/**
@@ -145,7 +144,7 @@ public class Robot extends IterativeRobot {
 	public void autonomousInit() {
 		autonomousCommand = chooser.getSelected();
 		resetgyro();
-		Robot.dt.resetEncoders();
+		//Robot.dt.resetEncoders();
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -207,9 +206,11 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Left Current", DriveSubsystem.getLeftCurrent());
         SmartDashboard.putNumber("Right Current", DriveSubsystem.getRightCurrent());
         
+        /*
         SmartDashboard.putNumber("Left enc value", Robot.dt.getLeftEncoderDist());
         SmartDashboard.putNumber("Right enc value", Robot.dt.getRightEncoderDist());
         SmartDashboard.putNumber("Average enc value", Robot.dt.getAverageDistance());
+        */
         
         SmartDashboard.putBoolean("Pressure Low?", Robot.compressor.getPressureSwitchValue());
         
