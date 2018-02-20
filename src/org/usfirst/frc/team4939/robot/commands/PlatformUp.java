@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
+
 public class PlatformUp extends Command {
 
     public PlatformUp() {
@@ -37,3 +38,4 @@ public class PlatformUp extends Command {
     	cancel();
     }
 }
+

@@ -27,8 +27,8 @@ public class DriveSubsystem extends Subsystem {
 	public static WPI_TalonSRX rightsidedrivefront= new WPI_TalonSRX(RobotMap.rightDriveFront);
     public static WPI_TalonSRX rightsidedriveback= new WPI_TalonSRX(RobotMap.rightDriveBack);
     /** Encoders on the drive */
-	private Encoder leftDriveEncoder;
-	private Encoder rightDriveEncoder;
+	//private Encoder leftDriveEncoder;
+	//private Encoder rightDriveEncoder;
 
 	/** The drive PID controller. */
 	public PIDController drivePID;
@@ -84,7 +84,7 @@ public class DriveSubsystem extends Subsystem {
     // here. Call these from Commands.
 	// Initialize Encoders
     	// Initialize Encoders
-    			leftDriveEncoder = new Encoder(ElectricalConstants.LEFT_DRIVE_ENCODER_A,
+    			/*leftDriveEncoder = new Encoder(ElectricalConstants.LEFT_DRIVE_ENCODER_A,
     					ElectricalConstants.LEFT_DRIVE_ENCODER_B, ElectricalConstants.leftDriveTrainEncoderReverse,
     					Encoder.EncodingType.k4X);
 
@@ -95,7 +95,7 @@ public class DriveSubsystem extends Subsystem {
     					Encoder.EncodingType.k4X);
 
     			rightDriveEncoder.setDistancePerPulse(ElectricalConstants.driveEncoderDistPerTick);
-
+				*/
     			// Initialize PID controllers
     			drivePID = new PIDController(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
     			gyroPID = new PIDController(NumberConstants.pGyro, NumberConstants.iGyro, NumberConstants.dGyro);
@@ -122,11 +122,11 @@ public double rate ()
 {
 	return gyro.getRate();
 }
-
+/*
 public double getAverageDistance() {
 	return (getLeftEncoderDist() + getRightEncoderDist()) / 2;
 }
-
+*/
 /**
  * Using both PID controllers (drive & gyro), the drivetrain will move to
  * target at given speed and angle
@@ -141,13 +141,14 @@ public double getAverageDistance() {
  *            How close robot should be to target to consider reached
  */
 // only need setpoint and tolerance to drive straight a distance
-public void driveStraight(double setPoint, double epsilon) {
+/*
+public void driveStraight(double setPoint, double epsilon, double const_multiplier) {
 	double output = drivePID.calcPIDDrive(setPoint, getAverageDistance(), epsilon);
 	
 //	double angle = gyroPID.calcPID(setAngle, getGyroYaw(), epsilon); // don't need this to drive straight
 
-	runleftsidedrive(output - (angle()*kP)); 
-	runrightsidedrive((output*-1) + (angle()*kP));
+	runleftsidedrive((output - (angle()*kP))*const_multiplier); 
+	runrightsidedrive((output + (angle()*kP))*const_multiplier);
 }
 
 /**
@@ -159,11 +160,11 @@ public void driveStraight(double setPoint, double epsilon) {
  * @param speed
  *            The speed (-1.0 - 1.0)
  */
-public void driveAngle(double setAngle) {
+public void driveAngle(double setAngle, double multiplier) {
 	double outputcontroller = gyroPID.calcPID(setAngle, getGyroYaw(), 1);
 
-	runleftsidedrive(outputcontroller);
-	runrightsidedrive(outputcontroller*-1);
+	runleftsidedrive((outputcontroller)*multiplier);
+	runrightsidedrive((outputcontroller*-1)*multiplier);
 }
 
 /**
@@ -209,7 +210,7 @@ public void pause(double time)
 }
 
 public void reset() {
-	resetEncoders();
+	//resetEncoders();
 	resetGyro();
 }
 
@@ -227,6 +228,7 @@ public static double getRightCurrent() {
  *
  * @return Returns distance traveled by encoder in inches
  */
+/*
 public double getLeftEncoderDist() {
 	return leftDriveEncoder.getDistance();
 }
@@ -237,6 +239,7 @@ public double getLeftEncoderDist() {
  *
  * @return Returns distance traveled by encoder in inches
  */
+/*
 public double getRightEncoderDist() {
 	return rightDriveEncoder.getDistance();
 }
@@ -245,6 +248,7 @@ public void resetEncoders() {
 	leftDriveEncoder.reset();
 	rightDriveEncoder.reset();
 }
+*/
 
 public void calibrate_gyro()
 {

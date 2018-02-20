@@ -19,7 +19,7 @@ public class BoxIntake extends Command {
 
  // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.intake.useIntake(0.75);
+    	Robot.intake.useIntake(-0.65);
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -29,6 +29,7 @@ public class BoxIntake extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	//Robot.intake.useIntake(0);
     }
 
     // Called when another command which requires one or more of the same

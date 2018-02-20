@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  *
  */
+/*
 public class ClimbSubsystem extends Subsystem {
 	public static WPI_TalonSRX climberLift = new WPI_TalonSRX(RobotMap.climbMotor);
 	
@@ -35,4 +36,4 @@ public class ClimbSubsystem extends Subsystem {
         //setDefaultCommand(new MySpecialCommand());
     }
 }
-
+*/

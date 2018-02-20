@@ -29,22 +29,22 @@ public class RobotMap {
 		public static final int rightDriveBack = 2;
 		public static final int rightDriveFront = 4;
 		
-		public static final int leftArmIntake = 7;
-		public static final int rightArmIntake = 8;
+		public static final int leftArmIntake = 5;
+		public static final int rightArmIntake = 6;
 		
-		public static final int CIMTop = 5;
-		public static final int CIMBottom = 6;
+	//	public static final int CIMTop = 5;
+	//	public static final int CIMBottom = 6;
 		
-		public static final int climbMotor = 9;
+		public static final int climbMotor = 7;
 		
 	// Solenoids 
-		public static final int LeftPlatformPiston = 0;
-		public static final int RightPlatformPiston = 1;
+		public static final int LeftPlatformPiston = 3;
+		public static final int RightPlatformPiston = 6;
 		
-		public static final int leftIntakePiston = 2;
-		public static final int rightIntakePiston = 3;
+		public static final int leftIntakePiston = 7;
+		public static final int rightIntakePiston = 0;
 		
-		public static final int lockPiston = 4;
+	//	public static final int lockPiston = 4;
 		
 	//PWM
 		public static final int intake775 = 0;

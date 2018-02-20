@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
+/*
 public class ClimberUnlock extends Command {
 
     public ClimberUnlock() {
@@ -36,3 +37,4 @@ public class ClimberUnlock extends Command {
     	cancel();
     }
 }
+*/

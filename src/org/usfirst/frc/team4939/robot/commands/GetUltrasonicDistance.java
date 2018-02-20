@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class GetUltrasonicDistance extends Command {
 	
     public GetUltrasonicDistance() {
-        requires(Robot.ultrasonic);
+    //    requires(Robot.ultrasonic);
     }
 
     // Called just before this Command runs the first time
@@ -19,7 +19,7 @@ public class GetUltrasonicDistance extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.ultrasonicDistance = Robot.ultrasonic.getDistance();
+    //	Robot.ultrasonicDistance = Robot.ultrasonic.getDistance();
     }
 
     // Make this return true when this Command no longer needs to run execute()

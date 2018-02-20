@@ -19,7 +19,7 @@ public class ReachBaseline extends CommandGroup {
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-		Robot.dt.driveStraight(200, 0.25, 0, 1);
+		Robot.dt.driveStraightWithoutSensors(0.25, 0.25, 2);
 	}
 
 	@Override

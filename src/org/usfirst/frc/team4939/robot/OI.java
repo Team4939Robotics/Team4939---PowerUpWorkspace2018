@@ -53,28 +53,42 @@ public class OI {
 	// intialize joysticks
 	public Joystick DriverController = new Joystick(1);
 	public Joystick ShooterController = new Joystick(2);
+
+	private Button BoxIntake = new JoystickButton(ShooterController, 4 );
+	private Button BoxOuttake = new JoystickButton(ShooterController, 1);
+	private Button BoxStopIntake = new JoystickButton(ShooterController, 3);
+		
+	private Button BoxClose = new JoystickButton(ShooterController, 5 );
+	private Button BoxOpen = new JoystickButton(ShooterController, 6);
+	private Button PlatformDown = new JoystickButton(ShooterController, 9);
+    private Button PlatformUp = new JoystickButton(ShooterController, 10);
 	
-	private button BoxClose = new JoystickButton();
-	private button BoxOpen = new JoystickButton();
-	private button BoxIntake = new JoystickButton();
-	private button BoxOuttake = new JoystickButton();
-	private button BoxStopIntake = new JoystickButton();
-	
+	/*
 	private button ClimberRaise = new JoystickButton();
 	private button ClimberClimb = new JoystickButton();
 	private button ClimberStop = new JoystickButton();
 	private button ClimberLock = new JoystickButton();
 	private button ClimberUnlock = new JoystickButton();
 	
-	private button PlatformDown = new JoystickButton();
-	private button PlatformUp = new JoystickButton();
+	
 
+	*/
 	public OI() {
-		this.BoxClose.whenPressed(new BoxClose());
-		this.BoxOpen.whenPressed(new BoxOpen());
-		this.BoxIntake.whenPressed(new BoxIntake());
-		this.BoxOuttake.whenPressed(new BoxOuttake());
-		this.BoxStopIntake.whenPressed(new BoxStopIntake());
+		this.BoxIntake.whileHeld(new BoxIntake());
+		this.BoxOuttake.whileHeld(new BoxOuttake());
+		this.BoxStopIntake.whileHeld(new BoxStopIntake());
+		
+		this.BoxClose.whileHeld(new BoxClose());
+		this.BoxOpen.whileHeld(new BoxOpen());
+		
+		this.PlatformDown.whileHeld(new PlatformDown());
+		this.PlatformUp.whileHeld(new PlatformUp());
+		
+	}
+	
+	
+	/*
+	public OI() {
 		
 		this.ClimberRaise.whenPressed(new ClimberRaise());
 		this.ClimberClimb.whenPressed(new ClimberClimb());
@@ -82,9 +96,9 @@ public class OI {
 		this.ClimberLock.whenPressed(new ClimberLock());
 		this.ClimberUnlock.whenPressed(new ClimberUnlock());
 		
-		this.PlatformDown.whenPressed(new PlatformDown());
-		this.PlatformUp.whenPressed(new PlatformUp());
+
 	}
+	*/
 	
 	public double left() {
 		double leftdrivestick = DriverController.getRawAxis(1);
