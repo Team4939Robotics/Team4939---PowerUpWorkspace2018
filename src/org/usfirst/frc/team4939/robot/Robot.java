@@ -48,13 +48,8 @@ public class Robot extends IterativeRobot {
 	Camera camera = new Camera();
 	public static double ultrasonicDistance;
 	public PowerDistributionPanel pdp;
-	
-	public boolean nearRight;
-	public boolean nearLeft;
-	public boolean scaleRight;
-	public boolean scaleLeft;
-	public boolean farRight;
-	public boolean farleft;
+	public static String gameData;
+	public static char startPosition;
 	
 	//CameraServer server;
 
@@ -143,6 +138,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousInit() {
 		autonomousCommand = chooser.getSelected();
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
 		resetgyro();
 		//Robot.dt.resetEncoders();
 		/*
@@ -241,31 +237,4 @@ public class Robot extends IterativeRobot {
 		compressor.stop();
 	}
 	
-	public void findScoringSide(){
-		String gameData;
-		char nearSwitch;
-		char opposingSwitch;
-		char scaleside;
-		gameData = DriverStation.getInstance().getGameSpecificMessage();
-
-		nearSwitch = gameData.charAt(0);
-		scaleside = gameData.charAt(1);
-		opposingSwitch = gameData.charAt(2);
-		
-		if(nearSwitch == 'R'){
-			nearRight = true;
-			nearLeft = false;
-		}
-		if (scaleside == 'R'){
-			scaleRight = true;
-			scaleLeft = false;
-		}
-		if (opposingSwitch == 'R'){
-			farRight = true;
-			farleft = false;
-		}
-		
-		  
-        
-	}
 }
