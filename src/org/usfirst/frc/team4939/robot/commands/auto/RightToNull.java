@@ -9,7 +9,7 @@ public class RightToNull extends CommandGroup{
 	
 	public RightToNull(){
 		
-	addSequential(new DriveCommand(300, 0.5, 0, 2.5));
+	//addSequential(new DriveCommand(300, 0.5, 0, 2.5));
 	
 	}
 }

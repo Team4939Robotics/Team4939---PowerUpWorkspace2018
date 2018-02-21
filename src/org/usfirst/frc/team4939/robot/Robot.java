@@ -42,6 +42,7 @@ public class Robot extends IterativeRobot {
 	public static final IntakeSubsystem intake = new IntakeSubsystem();
 	//public static final UltrasonicSubsystem ultrasonic = new UltrasonicSubsystem();
 	//public static final ClimbSubsystem climber = new ClimbSubsystem();
+	public static final AutoChooserSubsystem auto = new AutoChooserSubsystem();
 	public static OI oi;
 	public static Compressor compressor; 
 	public static CameraServer server;
@@ -52,9 +53,8 @@ public class Robot extends IterativeRobot {
 	public static char startPosition;
 	
 	//CameraServer server;
-
-	Command autonomousCommand;
-	SendableChooser<Command> chooser = new SendableChooser<>();
+	public static Command autonomousCommand;
+	SendableChooser chooser = new SendableChooser();
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -98,11 +98,10 @@ public class Robot extends IterativeRobot {
 		
 		// You want to go to closest Switch based on start position. Could create a new parameter or new auto mode
 		
-		SmartDashboard.putData("Auto mode", chooser);
-		chooser.addDefault("Reach Baseline", new ReachBaseline());
-		chooser.addObject("Do Nothing Auto", new DoNothingAuto());
-		chooser.addObject("LeftSwitch Left Start", new LeftSwitch());
-		chooser.addObject("RightSwitch Right Start", new RightSwitch());
+		SmartDashboard.putData("Start Position", chooser);
+		chooser.addDefault("L", 'L');
+		chooser.addObject("R", 'R');
+		chooser.addObject("C", 'C');
 	}
 
 	/**
@@ -137,8 +136,10 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		autonomousCommand = chooser.getSelected();
+		startPosition = (char) chooser.getSelected();
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		auto.selectAuto();
+		auto.launchAuto();
 		resetgyro();
 		//Robot.dt.resetEncoders();
 		/*
@@ -149,7 +150,8 @@ public class Robot extends IterativeRobot {
 		 */
 
 		// schedule the autonomous command (example)
-		if (autonomousCommand != null) {
+		
+		  if (autonomousCommand != null) {
 			autonomousCommand.start();
 		}
 	}
@@ -169,9 +171,11 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (autonomousCommand != null) {
+		
+		if(autonomousCommand != null) {
 			autonomousCommand.cancel();
 		}
+		
 	}
 
 	/**
@@ -210,12 +214,7 @@ public class Robot extends IterativeRobot {
         
         SmartDashboard.putBoolean("Pressure Low?", Robot.compressor.getPressureSwitchValue());
         
-        SmartDashboard.putBoolean("Close Switch Right", nearRight);
-        SmartDashboard.putBoolean("Close Switch Left", nearLeft);
-        SmartDashboard.putBoolean("Scale Right", scaleRight);
-        SmartDashboard.putBoolean("Scale Left", scaleLeft);
-        SmartDashboard.putBoolean("Far Switch Right", farRight);
-        SmartDashboard.putBoolean("Far Switch Left", farleft);
+        SmartDashboard.putString("Switch positions", gameData);
         
         //SmartDashboard.putNumber("Ultrasonic Distance", Robot.ultrasonic.getDistance());
 	}

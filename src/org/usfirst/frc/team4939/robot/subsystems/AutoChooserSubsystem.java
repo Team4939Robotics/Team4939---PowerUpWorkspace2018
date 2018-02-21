@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4939.robot.subsystems;
 
 import org.usfirst.frc.team4939.robot.Robot;
+import org.usfirst.frc.team4939.robot.commands.auto.*;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -25,10 +26,13 @@ public class AutoChooserSubsystem extends Subsystem {
 		
 		if(switchSide == 'L'){
 			if(startPosition == 'R'){
-				chosen = 1;
+				chosen = 2;
 			}
 			else if(startPosition == 'L') {
-				chosen = 2;
+				chosen = 1;
+			}
+			else if(startPosition == 'C') {
+				chosen = 4;
 			}
 		}
     	
@@ -39,6 +43,9 @@ public class AutoChooserSubsystem extends Subsystem {
 			else if(startPosition == 'L') {
 				chosen = 3;
 			}
+			else if (startPosition == 'C') {
+				chosen = 5;
+			}
 		}
 		else {
 			chosen = 0;
@@ -47,8 +54,24 @@ public class AutoChooserSubsystem extends Subsystem {
     
     public void launchAuto() {
     	switch (chosen){
-    	case 1:
-    		
+	    	case 0:
+	    		Robot.autonomousCommand = new DoNothingAuto();
+	    		break;
+	    	case 1: 
+	    		Robot.autonomousCommand = new StraightToSwitch();
+	    		break;
+	    	case 2:
+	    		Robot.autonomousCommand = new LeftSwitch();
+	    		break;
+	    	case 3:
+	    		Robot.autonomousCommand = new RightSwitch();
+	    		break;
+	    	case 4:
+	    		Robot.autonomousCommand = new CenterToLeftSwitch();
+	    		break;
+	    	case 5:
+	    		Robot.autonomousCommand = new CenterToRightSwitch();
+	    		break;
     		
     	}
     }
