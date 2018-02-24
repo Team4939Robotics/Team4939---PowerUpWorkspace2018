@@ -11,10 +11,10 @@ public class RightAroundSwitch extends CommandGroup {
 
     public RightAroundSwitch() {
     	addParallel(new PlatformDown());
-    	addSequential(new DriveCommand(0.5, 0.5, 0.4));
+    	addSequential(new DriveCommand(0.67, 0.67, 0.4));
     	addSequential(new TurnCommand(32, 0.5, 1));
-    	addSequential(new DriveCommand(0.5, 0.5, 0.97));
+    	addSequential(new DriveCommand(0.67, 0.67, 0.97));
     	addSequential(new TurnCommand(-32, 0.5, 1));
-    	addSequential(new DriveCommand(0.5, 0.5, 1.6));
+    	addSequential(new DriveCommand(0.67, 0.67, 1.6));
     }
 }

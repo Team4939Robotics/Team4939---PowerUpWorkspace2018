@@ -15,12 +15,12 @@ public class StraightToSwitch extends CommandGroup {
     	addParallel(new PlatformUp());
     	
         //addSequential(new DriveCommand(140, 0.5, 0 , 2.5));
-    	addSequential(new DriveCommand(0.5, 0.5, 1.45));
+    	addSequential(new DriveCommand(0.67, 0.67, 1.45));
         addSequential(new BoxOuttake());
         addSequential(new PauseCommand(1));
         addParallel(new BoxStopIntake());
         //addSequential(new DriveCommand(-15, 0.5, 0, 2.5));
-        addSequential(new DriveCommand(-0.5, -0.5, 0.2));
+        addSequential(new DriveCommand(-0.67, -0.67, 0.2));
         addSequential(new PlatformDown());
     }
 }

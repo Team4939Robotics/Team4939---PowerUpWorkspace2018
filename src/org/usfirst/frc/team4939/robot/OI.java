@@ -55,13 +55,13 @@ public class OI {
 	public Joystick ShooterController = new Joystick(2);
 
 	private Button BoxIntake = new JoystickButton(ShooterController, 4 );
-	private Button BoxOuttake = new JoystickButton(ShooterController, 1);
-	private Button BoxStopIntake = new JoystickButton(ShooterController, 3);
+	private Button BoxOuttake = new JoystickButton(ShooterController, 2);
+	private Button BoxStopIntake = new JoystickButton(ShooterController, 1);
 		
-	private Button BoxClose = new JoystickButton(ShooterController, 5 );
+	private Button BoxClose = new JoystickButton(ShooterController, 5);
 	private Button BoxOpen = new JoystickButton(ShooterController, 6);
-	private Button PlatformDown = new JoystickButton(ShooterController, 9);
-    private Button PlatformUp = new JoystickButton(ShooterController, 10);
+	private Button PlatformDown = new JoystickButton(ShooterController, 11);
+    private Button PlatformUp = new JoystickButton(ShooterController, 12);
 	
 	/*
 	private button ClimberRaise = new JoystickButton();

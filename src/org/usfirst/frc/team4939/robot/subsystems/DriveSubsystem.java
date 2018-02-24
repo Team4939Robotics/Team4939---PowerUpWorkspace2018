@@ -106,7 +106,7 @@ public class DriveSubsystem extends Subsystem {
     		 */
 public void runleftsidedrive(double leftdrivestick)
 {
-	leftsidedrivefront.set(leftdrivestick);
+	leftsidedrivefront.set(-leftdrivestick);
 	leftsidedriveback.set(leftdrivestick);
 }
 public void runrightsidedrive(double rightdrivestick)
@@ -214,13 +214,13 @@ public void reset() {
 	resetGyro();
 }
 
-public static double getLeftCurrent() {
-	return leftsidedrivefront.getOutputCurrent() + leftsidedriveback.getOutputCurrent();
-}
-
-public static double getRightCurrent() {
-	return rightsidedrivefront.getOutputCurrent() + rightsidedriveback.getOutputCurrent();
-}
+//public static double getLeftCurrent() {
+//	return leftsidedrivefront.getOutputCurrent() + leftsidedriveback.getOutputCurrent();
+//}
+//
+//public static double getRightCurrent() {
+//	return rightsidedrivefront.getOutputCurrent() + rightsidedriveback.getOutputCurrent();
+//}
 
 /**
  * This function returns the distance traveled from the left encoder in
