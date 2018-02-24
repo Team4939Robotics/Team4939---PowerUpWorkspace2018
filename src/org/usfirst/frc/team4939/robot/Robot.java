@@ -34,7 +34,7 @@ public class Robot extends IterativeRobot {
 	public static final IntakeSubsystem intake = new IntakeSubsystem();
 	//public static final UltrasonicSubsystem ultrasonic = new UltrasonicSubsystem();
 	//public static final ClimbSubsystem climber = new ClimbSubsystem();
-	public static final AutoChooserSubsystem auto = new AutoChooserSubsystem();
+	//public static final AutoChooserSubsystem auto = new AutoChooserSubsystem();
 	public static OI oi;
 	public static Compressor compressor;
 	public static double ultrasonicDistance;
@@ -44,7 +44,8 @@ public class Robot extends IterativeRobot {
 	
 	//CameraServer server;
 	public static Command autonomousCommand;
-	SendableChooser chooser = new SendableChooser();
+	SendableChooser positionChooser = new SendableChooser();
+	SendableChooser<Command> autoChooser = new SendableChooser<>();
 
 	/**
 	 * This function is run when the robot is first started up and should be
@@ -74,10 +75,18 @@ public class Robot extends IterativeRobot {
 		
 		// You want to go to closest Switch based on start position. Could create a new parameter or new auto mode
 		
-		SmartDashboard.putData("Start Position", chooser);
-		chooser.addDefault("L", 'L');
-		chooser.addObject("R", 'R');
-		chooser.addObject("C", 'C');
+		SmartDashboard.putData("Start Position", positionChooser);
+		positionChooser.addDefault("Start on Left", 'L');
+		positionChooser.addObject("Start on Right", 'R');
+		positionChooser.addObject("Start in Center", 'C');
+		
+		SmartDashboard.putData("Auto Choice", autoChooser);
+		autoChooser.addDefault("Do nothing", new DoNothingAuto());
+		autoChooser.addObject("Straight to Switch", new StraightToSwitch());
+		autoChooser.addObject("Left Around Switch", new LeftAroundSwitch());
+		autoChooser.addObject("Right Around Switch", new RightAroundSwitch());
+		autoChooser.addObject("Center to Left Switch", new CenterToLeftSwitch());
+		autoChooser.addObject("Center to Right Switch", new CenterToRightSwitch());
 	}
 
 	/**
@@ -112,11 +121,12 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		startPosition = (char) chooser.getSelected();
-		gameData = DriverStation.getInstance().getGameSpecificMessage();
-		auto.selectAuto();
-		auto.launchAuto();
+		//startPosition = (char) positionChooser.getSelected();
+		//gameData = DriverStation.getInstance().getGameSpecificMessage();
+		//auto.selectAuto();
+		//auto.launchAuto();
 		resetgyro();
+		autonomousCommand = (Command) autoChooser.getSelected();
 		//Robot.dt.resetEncoders();
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
