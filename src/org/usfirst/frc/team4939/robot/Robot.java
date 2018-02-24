@@ -75,7 +75,7 @@ public class Robot extends IterativeRobot {
 		
 		// You want to go to closest Switch based on start position. Could create a new parameter or new auto mode
 		
-		SmartDashboard.putData("Start Position", positionChooser);
+		SmartDashboard.putData("Starting Position", positionChooser);
 		positionChooser.addDefault("Start on Left", 'L');
 		positionChooser.addObject("Start on Right", 'R');
 		positionChooser.addObject("Start in Center", 'C');
