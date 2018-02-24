@@ -38,11 +38,11 @@ public class RobotMap {
 		public static final int climbMotor = 7;
 		
 	// Solenoids 
-		public static final int LeftPlatformPiston = 7;
-		public static final int RightPlatformPiston = 0;
+		public static final int LeftPlatformPiston = 3;
+		public static final int RightPlatformPiston = 6;
 		
-		public static final int leftIntakePiston = 3;
-		public static final int rightIntakePiston = 6;
+		public static final int leftIntakePiston = 7;
+		public static final int rightIntakePiston = 0;
 		
 	//	public static final int lockPiston = 4;
 		
