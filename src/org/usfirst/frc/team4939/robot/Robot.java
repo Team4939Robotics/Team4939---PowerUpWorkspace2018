@@ -9,14 +9,6 @@ package org.usfirst.frc.team4939.robot;
 
 import org.usfirst.frc.team4939.robot.subsystems.*;
 import org.usfirst.frc.team4939.robot.commands.auto.*;
-import org.usfirst.frc.team4939.robot.Camera;
-
-import org.opencv.core.Mat;
-import org.opencv.imgproc.Imgproc;
-
-import edu.wpi.cscore.CvSink;
-import edu.wpi.cscore.CvSource;
-import edu.wpi.cscore.UsbCamera;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
@@ -44,9 +36,7 @@ public class Robot extends IterativeRobot {
 	//public static final ClimbSubsystem climber = new ClimbSubsystem();
 	public static final AutoChooserSubsystem auto = new AutoChooserSubsystem();
 	public static OI oi;
-	public static Compressor compressor; 
-	public static CameraServer server;
-	Camera camera = new Camera();
+	public static Compressor compressor;
 	public static double ultrasonicDistance;
 	public PowerDistributionPanel pdp;
 	public static String gameData;
@@ -68,29 +58,15 @@ public class Robot extends IterativeRobot {
         pdp = new PowerDistributionPanel();
 	//	resetgyro();
 		calibratesensors();
-	updateSmartdashboard();
-
-		// Camera Server
+	//	Camera
+//		CameraServer server = CameraServer.getInstance();
+//		server.setQuality(50);
+//		server.startAutomaticCapture("cam0");
 		CameraServer.getInstance().startAutomaticCapture();
-       // server.setQuality(50);
-        //server.startAutomaticCapture("cam0");
+	updateSmartdashboard();
+	
+
 		
-		new Thread(() -> {
-            UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-            camera.setResolution(480, 240);
-            
-            CvSink cvSink = CameraServer.getInstance().getVideo();
-            CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 480, 240);
-            
-            Mat source = new Mat();
-            Mat output = new Mat();
-            
-            while(!Thread.interrupted()) {
-                cvSink.grabFrame(source);
-                Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
-                outputStream.putFrame(output);
-            }
-        }).start();
 
 		///////////////////////////////////////////////////////////////////////////////////
 		
@@ -184,7 +160,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		camera.control();
         startCompressor();
         updateSmartdashboard();
 	}

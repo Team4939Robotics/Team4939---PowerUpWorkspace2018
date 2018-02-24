@@ -61,10 +61,10 @@ public class AutoChooserSubsystem extends Subsystem {
 	    		Robot.autonomousCommand = new StraightToSwitch();
 	    		break;
 	    	case 2:
-	    		Robot.autonomousCommand = new LeftSwitch();
+	    		Robot.autonomousCommand = new LeftAroundSwitch();
 	    		break;
 	    	case 3:
-	    		Robot.autonomousCommand = new RightSwitch();
+	    		Robot.autonomousCommand = new RightAroundSwitch();
 	    		break;
 	    	case 4:
 	    		Robot.autonomousCommand = new CenterToLeftSwitch();
