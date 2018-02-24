@@ -178,8 +178,8 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("rate", Robot.dt.rate());
         SmartDashboard.putNumber("gyro yaw", Robot.dt.getGyroYaw());
         
- //       SmartDashboard.putNumber("Left Current", DriveSubsystem.getLeftCurrent());
-   //     SmartDashboard.putNumber("Right Current", DriveSubsystem.getRightCurrent());
+        SmartDashboard.putNumber("Left Current", DriveSubsystem.getLeftCurrent());
+        SmartDashboard.putNumber("Right Current", DriveSubsystem.getRightCurrent());
         
         /*
         SmartDashboard.putNumber("Left enc value", Robot.dt.getLeftEncoderDist());
