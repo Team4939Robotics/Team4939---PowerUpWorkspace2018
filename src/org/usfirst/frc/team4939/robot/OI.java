@@ -54,8 +54,8 @@ public class OI {
 	public Joystick DriverController = new Joystick(1);
 	public Joystick ShooterController = new Joystick(2);
 
-	private Button BoxIntake = new JoystickButton(ShooterController, 4 );
-	private Button BoxOuttake = new JoystickButton(ShooterController, 1);
+	private Button BoxIntake = new JoystickButton(ShooterController, 1 );
+	private Button BoxOuttake = new JoystickButton(ShooterController, 4);
 	private Button BoxStopIntake = new JoystickButton(ShooterController, 3);
 		
 	private Button BoxClose = new JoystickButton(ShooterController, 5 );

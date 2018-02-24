@@ -106,7 +106,7 @@ public class DriveSubsystem extends Subsystem {
     		 */
 public void runleftsidedrive(double leftdrivestick)
 {
-	leftsidedrivefront.set(leftdrivestick);
+	leftsidedrivefront.set(-leftdrivestick);
 	leftsidedriveback.set(leftdrivestick);
 }
 public void runrightsidedrive(double rightdrivestick)
