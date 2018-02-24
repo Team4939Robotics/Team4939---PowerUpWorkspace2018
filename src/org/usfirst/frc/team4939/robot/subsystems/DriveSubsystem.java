@@ -6,13 +6,13 @@ import org.usfirst.frc.team4939.robot.commands.TankDrive;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
-//import org.usfirst.frc.team4939.robot.ElectricalConstants;
+import org.usfirst.frc.team4939.robot.ElectricalConstants;
 import org.usfirst.frc.team4939.robot.NumberConstants;
 import org.usfirst.frc.team4939.robot.subsystems.PIDController;
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DriverStation;
-//import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -27,8 +27,8 @@ public class DriveSubsystem extends Subsystem {
 	public static WPI_TalonSRX rightsidedrivefront= new WPI_TalonSRX(RobotMap.rightDriveFront);
     public static WPI_TalonSRX rightsidedriveback= new WPI_TalonSRX(RobotMap.rightDriveBack);
     /** Encoders on the drive */
-	//private Encoder leftDriveEncoder;
-	//private Encoder rightDriveEncoder;
+	private Encoder leftDriveEncoder;
+	private Encoder rightDriveEncoder;
 
 	/** The drive PID controller. */
 	public PIDController drivePID;
@@ -84,7 +84,7 @@ public class DriveSubsystem extends Subsystem {
     // here. Call these from Commands.
 	// Initialize Encoders
     	// Initialize Encoders
-    			/*leftDriveEncoder = new Encoder(ElectricalConstants.LEFT_DRIVE_ENCODER_A,
+    			leftDriveEncoder = new Encoder(ElectricalConstants.LEFT_DRIVE_ENCODER_A,
     					ElectricalConstants.LEFT_DRIVE_ENCODER_B, ElectricalConstants.leftDriveTrainEncoderReverse,
     					Encoder.EncodingType.k4X);
 
@@ -95,7 +95,7 @@ public class DriveSubsystem extends Subsystem {
     					Encoder.EncodingType.k4X);
 
     			rightDriveEncoder.setDistancePerPulse(ElectricalConstants.driveEncoderDistPerTick);
-				*/
+				
     			// Initialize PID controllers
     			drivePID = new PIDController(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
     			gyroPID = new PIDController(NumberConstants.pGyro, NumberConstants.iGyro, NumberConstants.dGyro);
@@ -122,11 +122,11 @@ public double rate ()
 {
 	return gyro.getRate();
 }
-/*
+
 public double getAverageDistance() {
 	return (getLeftEncoderDist() + getRightEncoderDist()) / 2;
 }
-*/
+
 /**
  * Using both PID controllers (drive & gyro), the drivetrain will move to
  * target at given speed and angle
@@ -141,7 +141,7 @@ public double getAverageDistance() {
  *            How close robot should be to target to consider reached
  */
 // only need setpoint and tolerance to drive straight a distance
-/*
+
 public void driveStraight(double setPoint, double epsilon, double const_multiplier) {
 	double output = drivePID.calcPIDDrive(setPoint, getAverageDistance(), epsilon);
 	
@@ -228,7 +228,7 @@ public static double getRightCurrent() {
  *
  * @return Returns distance traveled by encoder in inches
  */
-/*
+
 public double getLeftEncoderDist() {
 	return leftDriveEncoder.getDistance();
 }
@@ -239,7 +239,7 @@ public double getLeftEncoderDist() {
  *
  * @return Returns distance traveled by encoder in inches
  */
-/*
+
 public double getRightEncoderDist() {
 	return rightDriveEncoder.getDistance();
 }
@@ -248,7 +248,7 @@ public void resetEncoders() {
 	leftDriveEncoder.reset();
 	rightDriveEncoder.reset();
 }
-*/
+
 
 public void calibrate_gyro()
 {
