@@ -7,11 +7,15 @@ import edu.wpi.first.wpilibj.command.Command;
 public class DriveCommand extends Command {
 
 	// Variables used to store parameter information
-	private double distance;
-	private double const_multiplier;
-	private double angle;
+	//private double distance;
+	//private double const_multiplier;
+//	private double angle;
 	private double timeOut;
-	private double epsilon;
+	//private double epsilon;
+	
+	private double leftPower;
+	private double rightPower;
+	private double time;
 
 	/**
 	 * Instantiates a new drive command.
@@ -25,7 +29,7 @@ public class DriveCommand extends Command {
 	 * @param timeOut
 	 *            The time out in seconds
 	 */
-	
+	/*
 	public DriveCommand(double setPoint, double const_multiplier, double angle, double timeOut) {
 		this(setPoint, const_multiplier, angle, timeOut, 1);
 	}
@@ -44,7 +48,7 @@ public class DriveCommand extends Command {
 	 * @param epsilon
 	 *            How close robot should be to target to consider reached
 	 */
-	
+	/*
 	public DriveCommand(double setPoint, double const_multiplier, double angle, double timeOut, double epsilon) {
 		this.distance = setPoint;
 		this.const_multiplier = const_multiplier;
@@ -53,7 +57,13 @@ public class DriveCommand extends Command {
 		this.epsilon = epsilon;
 		requires(Robot.dt);
 	}
+	*/
 	
+	public DriveCommand(double leftPower, double rightPower, double time){
+		this.leftPower = leftPower;
+		this.rightPower = rightPower;
+		this.time = time;
+	}
 	
 	// Called just before this Command runs the first time
 	protected void initialize() {
@@ -63,7 +73,8 @@ public class DriveCommand extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.dt.driveStraight(distance, epsilon, const_multiplier);
+		//Robot.dt.driveStraight(distance, epsilon, const_multiplier);
+		Robot.dt.driveStraightWithoutSensors(leftPower, rightPower, time);
 	}
 
 	// Command will finish when it is timed out
