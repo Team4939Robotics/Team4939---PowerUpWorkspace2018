@@ -189,7 +189,7 @@ public void turnDrive(double setAngle, double speed, double epsilon) {
 public void driveStraightWithoutSensors(double leftPower, double rightPower, double time) {
 	{
 	runleftsidedrive(leftPower);
-	runrightsidedrive(rightPower);
+	runrightsidedrive(-rightPower);
 	}
 	Timer.delay(time);
 }

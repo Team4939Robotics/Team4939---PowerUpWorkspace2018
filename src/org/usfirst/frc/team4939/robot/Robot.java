@@ -41,12 +41,16 @@ public class Robot extends IterativeRobot {
 	public PowerDistributionPanel pdp;
 	public static String gameData;
 	public static char startPosition;
+	public static char autoChoice;
 	
 	//CameraServer server;
 	public static Command autonomousCommand;
 	SendableChooser positionChooser = new SendableChooser();
-	SendableChooser<Command> autoChooser = new SendableChooser<>();
-
+	SendableChooser<Command> testAutoChooser = new SendableChooser<>();
+	SendableChooser leftAutoChooser = new SendableChooser();
+	SendableChooser centerAutoChooser = new SendableChooser();
+	SendableChooser rightAutoChooser = new SendableChooser();
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -75,18 +79,36 @@ public class Robot extends IterativeRobot {
 		
 		// You want to go to closest Switch based on start position. Could create a new parameter or new auto mode
 		
-		SmartDashboard.putData("Starting Position", positionChooser);
 		positionChooser.addDefault("Start on Left", 'L');
 		positionChooser.addObject("Start on Right", 'R');
 		positionChooser.addObject("Start in Center", 'C');
+		SmartDashboard.putData("Starting Position", positionChooser);
 		
-		SmartDashboard.putData("Auto Choice", autoChooser);
-		autoChooser.addDefault("Do nothing", new DoNothingAuto());
-		autoChooser.addObject("Straight to Switch", new StraightToSwitch());
-		autoChooser.addObject("Left Around Switch", new LeftAroundSwitch());
-		autoChooser.addObject("Right Around Switch", new RightAroundSwitch());
-		autoChooser.addObject("Center to Left Switch", new CenterToLeftSwitch());
-		autoChooser.addObject("Center to Right Switch", new CenterToRightSwitch());
+		leftAutoChooser.addDefault("Do nothing", 'N');
+		leftAutoChooser.addObject("Vault", 'V');
+		leftAutoChooser.addObject("Reach Baseline", 'B');
+		SmartDashboard.putData("Left Auto Choices", leftAutoChooser);
+		
+		rightAutoChooser.addDefault("Do nothing", 'N');
+		rightAutoChooser.addObject("Vault", 'V');
+		rightAutoChooser.addObject("Reach Baseline", 'B');
+		SmartDashboard.putData("Right Auto Choices", rightAutoChooser);
+		
+		centerAutoChooser.addDefault("Do nothing", 'N');
+		centerAutoChooser.addObject("Left Switch", 'L');
+		centerAutoChooser.addObject("Right Switch", 'R');
+		centerAutoChooser.addObject("Right Baseline", 'A');
+		centerAutoChooser.addObject("Left Baseline", 'B');
+		centerAutoChooser.addObject("Vault", 'V');
+		SmartDashboard.putData("Center Auto Choices", centerAutoChooser);
+		
+		testAutoChooser.addDefault("Do nothing", new DoNothingAuto());
+		testAutoChooser.addObject("Straight to Switch", new StraightToSwitch());
+		testAutoChooser.addObject("Left Around Switch", new LeftAroundSwitch());
+		testAutoChooser.addObject("Right Around Switch", new RightAroundSwitch());
+		testAutoChooser.addObject("Center to Left Switch", new CenterToLeftSwitch());
+		testAutoChooser.addObject("Center to Right Switch", new CenterToRightSwitch());
+		SmartDashboard.putData("Auto Choice", testAutoChooser);
 	}
 
 	/**
@@ -121,12 +143,23 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		//startPosition = (char) positionChooser.getSelected();
-		//gameData = DriverStation.getInstance().getGameSpecificMessage();
-		//auto.selectAuto();
-		//auto.launchAuto();
+		/*
+		startPosition = (char) positionChooser.getSelected();
+		if (startPosition == 'L'){
+			autoChoice = (char) leftAutoChooser.getSelected();
+		}
+		else if (startPosition == 'R'){
+			autoChoice = (char) rightAutoChooser.getSelected();
+		}
+		else if (startPosition == 'C'){
+			autoChoice = (char) centerAutoChooser.getSelected();
+		}
+		gameData = DriverStation.getInstance().getGameSpecificMessage();
+		auto.selectAuto();
+		auto.launchAuto();
+		*/
+		autonomousCommand = (Command) testAutoChooser.getSelected();
 		resetgyro();
-		autonomousCommand = (Command) autoChooser.getSelected();
 		//Robot.dt.resetEncoders();
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -199,7 +232,7 @@ public class Robot extends IterativeRobot {
         
         SmartDashboard.putBoolean("Pressure Low?", Robot.compressor.getPressureSwitchValue());
         
-        SmartDashboard.putString("Switch positions", gameData);
+   //     SmartDashboard.putString("Switch positions", gameData);
         
         //SmartDashboard.putNumber("Ultrasonic Distance", Robot.ultrasonic.getDistance());
 	}
