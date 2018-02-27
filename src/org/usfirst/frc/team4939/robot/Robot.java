@@ -230,7 +230,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Average enc value", Robot.dt.getAverageDistance());
         */
         
-        SmartDashboard.putBoolean("Pressure Low?", Robot.compressor.getPressureSwitchValue());
+        SmartDashboard.putBoolean("Pressure Low?", Robot.compressor.getPressureSwitchValue()); // why?
         
    //     SmartDashboard.putString("Switch positions", gameData);
         
