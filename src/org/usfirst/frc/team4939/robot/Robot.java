@@ -9,14 +9,6 @@ package org.usfirst.frc.team4939.robot;
 
 import org.usfirst.frc.team4939.robot.subsystems.*;
 import org.usfirst.frc.team4939.robot.commands.auto.*;
-import org.usfirst.frc.team4939.robot.Camera;
-
-import org.opencv.core.Mat;
-import org.opencv.imgproc.Imgproc;
-
-import edu.wpi.cscore.CvSink;
-import edu.wpi.cscore.CvSource;
-import edu.wpi.cscore.UsbCamera;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
@@ -42,20 +34,23 @@ public class Robot extends IterativeRobot {
 	public static final IntakeSubsystem intake = new IntakeSubsystem();
 	//public static final UltrasonicSubsystem ultrasonic = new UltrasonicSubsystem();
 	//public static final ClimbSubsystem climber = new ClimbSubsystem();
-	public static final AutoChooserSubsystem auto = new AutoChooserSubsystem();
+	//public static final AutoChooserSubsystem auto = new AutoChooserSubsystem();
 	public static OI oi;
-	public static Compressor compressor; 
-	public static CameraServer server;
-	Camera camera = new Camera();
+	public static Compressor compressor;
 	public static double ultrasonicDistance;
 	public PowerDistributionPanel pdp;
 	public static String gameData;
 	public static char startPosition;
+	public static char autoChoice;
 	
 	//CameraServer server;
 	public static Command autonomousCommand;
-	SendableChooser chooser = new SendableChooser();
-
+	SendableChooser positionChooser = new SendableChooser();
+	SendableChooser<Command> testAutoChooser = new SendableChooser<>();
+	SendableChooser leftAutoChooser = new SendableChooser();
+	SendableChooser centerAutoChooser = new SendableChooser();
+	SendableChooser rightAutoChooser = new SendableChooser();
+	
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
@@ -68,29 +63,15 @@ public class Robot extends IterativeRobot {
         pdp = new PowerDistributionPanel();
 	//	resetgyro();
 		calibratesensors();
-	updateSmartdashboard();
-
-		// Camera Server
+	//	Camera
+//		CameraServer server = CameraServer.getInstance();
+//		server.setQuality(50);
+//		server.startAutomaticCapture("cam0");
 		CameraServer.getInstance().startAutomaticCapture();
-       // server.setQuality(50);
-        //server.startAutomaticCapture("cam0");
+	updateSmartdashboard();
+	
+
 		
-		new Thread(() -> {
-            UsbCamera camera = CameraServer.getInstance().startAutomaticCapture();
-            camera.setResolution(480, 240);
-            
-            CvSink cvSink = CameraServer.getInstance().getVideo();
-            CvSource outputStream = CameraServer.getInstance().putVideo("Blur", 480, 240);
-            
-            Mat source = new Mat();
-            Mat output = new Mat();
-            
-            while(!Thread.interrupted()) {
-                cvSink.grabFrame(source);
-                Imgproc.cvtColor(source, output, Imgproc.COLOR_BGR2GRAY);
-                outputStream.putFrame(output);
-            }
-        }).start();
 
 		///////////////////////////////////////////////////////////////////////////////////
 		
@@ -98,10 +79,36 @@ public class Robot extends IterativeRobot {
 		
 		// You want to go to closest Switch based on start position. Could create a new parameter or new auto mode
 		
-		SmartDashboard.putData("Start Position", chooser);
-		chooser.addDefault("L", 'L');
-		chooser.addObject("R", 'R');
-		chooser.addObject("C", 'C');
+		positionChooser.addDefault("Start on Left", 'L');
+		positionChooser.addObject("Start on Right", 'R');
+		positionChooser.addObject("Start in Center", 'C');
+		SmartDashboard.putData("Starting Position", positionChooser);
+		
+		leftAutoChooser.addDefault("Do nothing", 'N');
+		leftAutoChooser.addObject("Vault", 'V');
+		leftAutoChooser.addObject("Reach Baseline", 'B');
+		SmartDashboard.putData("Left Auto Choices", leftAutoChooser);
+		
+		rightAutoChooser.addDefault("Do nothing", 'N');
+		rightAutoChooser.addObject("Vault", 'V');
+		rightAutoChooser.addObject("Reach Baseline", 'B');
+		SmartDashboard.putData("Right Auto Choices", rightAutoChooser);
+		
+		centerAutoChooser.addDefault("Do nothing", 'N');
+		centerAutoChooser.addObject("Left Switch", 'L');
+		centerAutoChooser.addObject("Right Switch", 'R');
+		centerAutoChooser.addObject("Right Baseline", 'A');
+		centerAutoChooser.addObject("Left Baseline", 'B');
+		centerAutoChooser.addObject("Vault", 'V');
+		SmartDashboard.putData("Center Auto Choices", centerAutoChooser);
+		
+		testAutoChooser.addDefault("Do nothing", new DoNothingAuto());
+		testAutoChooser.addObject("Straight to Switch", new StraightToSwitch());
+		testAutoChooser.addObject("Left Around Switch", new LeftAroundSwitch());
+		testAutoChooser.addObject("Right Around Switch", new RightAroundSwitch());
+		testAutoChooser.addObject("Center to Left Switch", new CenterToLeftSwitch());
+		testAutoChooser.addObject("Center to Right Switch", new CenterToRightSwitch());
+		SmartDashboard.putData("Auto Choice", testAutoChooser);
 	}
 
 	/**
@@ -136,10 +143,22 @@ public class Robot extends IterativeRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		startPosition = (char) chooser.getSelected();
+		/*
+		startPosition = (char) positionChooser.getSelected();
+		if (startPosition == 'L'){
+			autoChoice = (char) leftAutoChooser.getSelected();
+		}
+		else if (startPosition == 'R'){
+			autoChoice = (char) rightAutoChooser.getSelected();
+		}
+		else if (startPosition == 'C'){
+			autoChoice = (char) centerAutoChooser.getSelected();
+		}
 		gameData = DriverStation.getInstance().getGameSpecificMessage();
 		auto.selectAuto();
 		auto.launchAuto();
+		*/
+		autonomousCommand = (Command) testAutoChooser.getSelected();
 		resetgyro();
 		//Robot.dt.resetEncoders();
 		/*
@@ -184,7 +203,6 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-		camera.control();
         startCompressor();
         updateSmartdashboard();
 	}
@@ -214,7 +232,7 @@ public class Robot extends IterativeRobot {
         
         SmartDashboard.putBoolean("Pressure Low?", Robot.compressor.getPressureSwitchValue()); // why?
         
-        SmartDashboard.putString("Switch positions", gameData);
+   //     SmartDashboard.putString("Switch positions", gameData);
         
         //SmartDashboard.putNumber("Ultrasonic Distance", Robot.ultrasonic.getDistance());
 	}

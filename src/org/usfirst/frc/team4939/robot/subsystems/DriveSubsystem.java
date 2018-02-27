@@ -106,7 +106,7 @@ public class DriveSubsystem extends Subsystem {
     		 */
 public void runleftsidedrive(double leftdrivestick)
 {
-	leftsidedrivefront.set(leftdrivestick);
+	leftsidedrivefront.set(-leftdrivestick);
 	leftsidedriveback.set(leftdrivestick);
 }
 public void runrightsidedrive(double rightdrivestick)
@@ -187,7 +187,7 @@ public void turnDrive(double setAngle, double speed, double epsilon) {
 public void driveStraightWithoutSensors(double leftPower, double rightPower, double time) {
 	{
 	runleftsidedrive(leftPower);
-	runrightsidedrive(rightPower);
+	runrightsidedrive(-rightPower);
 	}
 	Timer.delay(time);
 }
