@@ -9,9 +9,9 @@ public class NumberConstants {
   //**************************************************************************
 	
 	//Competition
-	public static final double pDrive 									 = 0.05;
-	public static final double iDrive 									 = 0.00;
-	public static final double dDrive 									 = 0.008;
+	public static double pDrive 									 = 0.05;	
+	public static double iDrive 									 = 0.00;
+	public static double dDrive 									 = 0.008;
 	
 	public static final double Drive_Scale 								 = 0.6;
 
@@ -20,9 +20,9 @@ public class NumberConstants {
     //**************************************************************************
 	
 	//Competition
-	public static final double pGyro 									 = 0.0125;
-	public static final double iGyro 									 = 0.00;
-	public static final double dGyro 									 = 0.00;
+	public static double pGyro 									 = 0.0125;
+	public static double iGyro 									 = 0.00;
+	public static double dGyro 									 = 0.00;
 	
 	//**************************************************************************
     //*************************** PID VALUES (CAMERA) **************************

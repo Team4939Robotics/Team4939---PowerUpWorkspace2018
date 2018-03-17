@@ -37,8 +37,8 @@ public class TankDrive extends Command {
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-		inputL = Robot.oi.left()*-1;
-		inputR = Robot.oi.right();
+		inputL = Robot.m_oi.left()*-1;
+		inputR = Robot.m_oi.right();
 		deltaL = inputL - prevInputL;
 		deltaR = inputR - prevInputR;
 		

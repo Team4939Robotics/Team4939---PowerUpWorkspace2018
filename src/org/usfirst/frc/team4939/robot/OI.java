@@ -75,7 +75,7 @@ public class OI {
 	*/
 	public OI() {
 		this.BoxIntake.whileHeld(new BoxIntake());
-		this.BoxOuttake.whileHeld(new BoxOuttake());
+		this.BoxOuttake.whenPressed(new BoxOuttake());
 		this.BoxStopIntake.whileHeld(new BoxStopIntake());
 		
 		this.BoxClose.whileHeld(new BoxClose());

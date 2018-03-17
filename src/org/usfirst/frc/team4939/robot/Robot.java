@@ -7,19 +7,19 @@
 
 package org.usfirst.frc.team4939.robot;
 
-import org.usfirst.frc.team4939.robot.subsystems.*;
-import org.usfirst.frc.team4939.robot.commands.auto.*;
-
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
+import edu.wpi.first.wpilibj.Preferences;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
-import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
+import org.usfirst.frc.team4939.robot.commands.auto.*;
+import org.usfirst.frc.team4939.robot.subsystems.*;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -32,83 +32,38 @@ public class Robot extends IterativeRobot {
 	public static final DriveSubsystem dt = new DriveSubsystem();
 	public static final PlatformSubsystem platform = new PlatformSubsystem();
 	public static final IntakeSubsystem intake = new IntakeSubsystem();
-	//public static final UltrasonicSubsystem ultrasonic = new UltrasonicSubsystem();
-	//public static final ClimbSubsystem climber = new ClimbSubsystem();
-	//public static final AutoChooserSubsystem auto = new AutoChooserSubsystem();
-	public static OI oi;
+	public static final DigitalInput limitSwitch = new DigitalInput(1);
+	public static OI m_oi;
 	public static Compressor compressor;
-	public static double ultrasonicDistance;
-	public PowerDistributionPanel pdp;
-	public static String gameData;
-	public static char startPosition;
-	public static char autoChoice;
+	public String gameData;
+	public char direction;
 	
-	//CameraServer server;
-	public static Command autonomousCommand;
-	SendableChooser positionChooser = new SendableChooser();
-	SendableChooser<Command> testAutoChooser = new SendableChooser<>();
-	SendableChooser leftAutoChooser = new SendableChooser();
-	SendableChooser centerAutoChooser = new SendableChooser();
-	SendableChooser rightAutoChooser = new SendableChooser();
-	
+	Preferences pref;
+
+	Command m_autonomousCommand;
+	SendableChooser<Integer> m_chooser = new SendableChooser<>();
+
 	/**
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
 	@Override
 	public void robotInit() {
-		oi = new OI();
-		compressor = new Compressor (0);
-	//	compressor.start();
-        pdp = new PowerDistributionPanel();
-	//	resetgyro();
-		calibratesensors();
-	//	Camera
-//		CameraServer server = CameraServer.getInstance();
-//		server.setQuality(50);
-//		server.startAutomaticCapture("cam0");
+		m_oi = new OI();
 		CameraServer.getInstance().startAutomaticCapture();
-	updateSmartdashboard();
-	
-
-		
-
-		///////////////////////////////////////////////////////////////////////////////////
-		
+		pref= Preferences.getInstance();
+//		m_chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		
-		// You want to go to closest Switch based on start position. Could create a new parameter or new auto mode
-		
-		positionChooser.addDefault("Start on Left", 'L');
-		positionChooser.addObject("Start on Right", 'R');
-		positionChooser.addObject("Start in Center", 'C');
-		SmartDashboard.putData("Starting Position", positionChooser);
-		
-		leftAutoChooser.addDefault("Do nothing", 'N');
-		leftAutoChooser.addObject("Vault", 'V');
-		leftAutoChooser.addObject("Reach Baseline", 'B');
-		SmartDashboard.putData("Left Auto Choices", leftAutoChooser);
-		
-		rightAutoChooser.addDefault("Do nothing", 'N');
-		rightAutoChooser.addObject("Vault", 'V');
-		rightAutoChooser.addObject("Reach Baseline", 'B');
-		SmartDashboard.putData("Right Auto Choices", rightAutoChooser);
-		
-		centerAutoChooser.addDefault("Do nothing", 'N');
-		centerAutoChooser.addObject("Left Switch", 'L');
-		centerAutoChooser.addObject("Right Switch", 'R');
-		centerAutoChooser.addObject("Right Baseline", 'A');
-		centerAutoChooser.addObject("Left Baseline", 'B');
-		centerAutoChooser.addObject("Vault", 'V');
-		SmartDashboard.putData("Center Auto Choices", centerAutoChooser);
-		
-		testAutoChooser.addDefault("Do nothing", new DoNothingAuto());
-		testAutoChooser.addObject("Straight to Switch", new StraightToSwitch());
-		testAutoChooser.addObject("Left Around Switch", new LeftAroundSwitch());
-		testAutoChooser.addObject("Right Around Switch", new RightAroundSwitch());
-		testAutoChooser.addObject("Center to Left Switch", new CenterToLeftSwitch());
-		testAutoChooser.addObject("Center to Right Switch", new CenterToRightSwitch());
-		SmartDashboard.putData("Auto Choice", testAutoChooser);
+//		m_chooser.addDefault("Reach Baseline", new ReachBaseline());
+//		m_chooser.addObject("Right Start", new RightStartAuto(direction));
+//		m_chooser.addObject("Center Start", new CenterStartAuto(direction));
+//		m_chooser.addObject("Left Start", new LeftStartAuto(direction));
+		m_chooser.addDefault("Left Start Timed :(", 0);
+		m_chooser.addObject("Right Start Timed :(", 1);
+		m_chooser.addObject("Center Start Timed :(", 2);
+		m_chooser.addObject("Turn Test :(", 3);
+		//SmartDashboard.putData("Auto modes", m_chooser);
 	}
 
 	/**
@@ -124,10 +79,8 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		compressor.stop();
-	    updateSmartdashboard();
-	    
-	    
+		SmartDashboard.putData("Auto mode(s)", m_chooser);
+		updateSmartDashboard();
 	}
 
 	/**
@@ -141,26 +94,32 @@ public class Robot extends IterativeRobot {
 	 * chooser code above (like the commented example) or additional comparisons
 	 * to the switch structure below with additional strings & commands.
 	 */
+
+	int automode = 0;
 	@Override
 	public void autonomousInit() {
-		/*
-		startPosition = (char) positionChooser.getSelected();
-		if (startPosition == 'L'){
-			autoChoice = (char) leftAutoChooser.getSelected();
+		//while(gameData.length() < 3) {
+			gameData = DriverStation.getInstance().getGameSpecificMessage();
+		//}
+		direction = gameData.charAt(0);
+		Robot.dt.resetGyroYaw();
+		automode = 0;
+		automode = (int) m_chooser.getSelected();
+		switch(automode){
+			case 0:
+				m_autonomousCommand = new TimedLeftAuto(direction);
+				break;
+			case 1:
+				m_autonomousCommand = new TimedRighttAuto(direction);
+				break;
+			case 2:
+				m_autonomousCommand = new TimedCenterAuto(direction);
+				break;
+			case 3:
+				m_autonomousCommand = new TurnCommand(90, 1, 3);
 		}
-		else if (startPosition == 'R'){
-			autoChoice = (char) rightAutoChooser.getSelected();
-		}
-		else if (startPosition == 'C'){
-			autoChoice = (char) centerAutoChooser.getSelected();
-		}
-		gameData = DriverStation.getInstance().getGameSpecificMessage();
-		auto.selectAuto();
-		auto.launchAuto();
-		*/
-		autonomousCommand = (Command) testAutoChooser.getSelected();
-		resetgyro();
-		//Robot.dt.resetEncoders();
+//		m_autonomousCommand = new ReachBaseline();
+
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -169,9 +128,8 @@ public class Robot extends IterativeRobot {
 		 */
 
 		// schedule the autonomous command (example)
-		
-		  if (autonomousCommand != null) {
-			autonomousCommand.start();
+		if (m_autonomousCommand != null) {
+			m_autonomousCommand.start();
 		}
 	}
 
@@ -181,7 +139,7 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		updateSmartdashboard();
+		updateSmartDashboard();
 	}
 
 	@Override
@@ -190,11 +148,9 @@ public class Robot extends IterativeRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		
-		if(autonomousCommand != null) {
-			autonomousCommand.cancel();
+		if (m_autonomousCommand != null) {
+			m_autonomousCommand.cancel();
 		}
-		
 	}
 
 	/**
@@ -203,55 +159,38 @@ public class Robot extends IterativeRobot {
 	@Override
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
-        startCompressor();
-        updateSmartdashboard();
+		updateSmartDashboard();
+		
 	}
 
 	/**
 	 * This function is called periodically during test mode.
 	 */
-	@SuppressWarnings("deprecation")
 	@Override
 	public void testPeriodic() {
-		LiveWindow.run();
+		updateSmartDashboard();
 	}
 	
-	public void updateSmartdashboard(){
-		SmartDashboard.putNumber("angle", Robot.dt.angle());
-        SmartDashboard.putNumber("rate", Robot.dt.rate());
-        SmartDashboard.putNumber("gyro yaw", Robot.dt.getGyroYaw());
-        
-        SmartDashboard.putNumber("Left Current", DriveSubsystem.getLeftCurrent());
-        SmartDashboard.putNumber("Right Current", DriveSubsystem.getRightCurrent());
-        
-        /*
-        SmartDashboard.putNumber("Left enc value", Robot.dt.getLeftEncoderDist());
-        SmartDashboard.putNumber("Right enc value", Robot.dt.getRightEncoderDist());
-        SmartDashboard.putNumber("Average enc value", Robot.dt.getAverageDistance());
-        */
-        
-        SmartDashboard.putBoolean("Pressure Low?", Robot.compressor.getPressureSwitchValue());
-        
-   //     SmartDashboard.putString("Switch positions", gameData);
-        
-        //SmartDashboard.putNumber("Ultrasonic Distance", Robot.ultrasonic.getDistance());
+	@Override
+	public void robotPeriodic() {
+		updateSmartDashboard();
 	}
 	
-	public void calibratesensors(){
-		Robot.dt.calibrate_gyro();
-	}
+	public void updateSmartDashboard(){
+		automode = m_chooser.getSelected();
+		SmartDashboard.putBoolean("Limit Switch State", limitSwitch.get());
+		SmartDashboard.putNumber("angle", Robot.dt.getGyroYaw());
+		SmartDashboard.putNumber("autoNum", automode);
 	
-	public void resetgyro(){
-		Robot.dt.resetGyroYaw();
-		Robot.dt.resetGyro();
+	//	SmartDashboard.putString("GameData", gameData);
+		NumberConstants.pGyro = pref.getDouble("pGyro", 0.0);
+		NumberConstants.iGyro = pref.getDouble("iGyro", 0.0);
+		NumberConstants.dGyro = pref.getDouble("dGyro", 0.0);
+		
+		NumberConstants.pDrive = pref.getDouble("pDrive", 0.0);
+		NumberConstants.iDrive = pref.getDouble("iDrive", 0.0);
+		NumberConstants.dDrive = pref.getDouble("dDrive", 0.0);
+		
+		Robot.dt.updatePID();
 	}
-	
-	public void startCompressor(){
-		compressor.start();
-	}
-	
-	public void stopCompressor(){
-		compressor.stop();
-	}
-	
 }

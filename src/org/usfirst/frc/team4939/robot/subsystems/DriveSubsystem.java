@@ -10,7 +10,7 @@ import com.kauailabs.navx.frc.AHRS;
 import org.usfirst.frc.team4939.robot.NumberConstants;
 import org.usfirst.frc.team4939.robot.subsystems.PIDController;
 
-import edu.wpi.first.wpilibj.ADXRS450_Gyro;
+//import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.DriverStation;
 //import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.SerialPort;
@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class DriveSubsystem extends Subsystem {
-	ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+	//ADXRS450_Gyro gyro = new ADXRS450_Gyro();
 	public static WPI_TalonSRX leftsidedrivefront = new WPI_TalonSRX(RobotMap.leftDriveFront);
 	public static WPI_TalonSRX leftsidedriveback= new WPI_TalonSRX(RobotMap.leftDriveBack);
 	public static WPI_TalonSRX rightsidedrivefront= new WPI_TalonSRX(RobotMap.rightDriveFront);
@@ -116,11 +116,11 @@ public void runrightsidedrive(double rightdrivestick)
 }
 public double angle()
 {
-	return gyro.getAngle();
+	return ahrs.getAngle();
 }
 public double rate ()
 {
-	return gyro.getRate();
+	return ahrs.getRate();
 }
 /*
 public double getAverageDistance() {
@@ -188,8 +188,8 @@ public void turnDrive(double setAngle, double speed, double epsilon) {
 
 public void driveStraightWithoutSensors(double leftPower, double rightPower, double time) {
 	{
-	runleftsidedrive(leftPower);
-	runrightsidedrive(-rightPower);
+	runleftsidedrive(leftPower-(getGyroYaw()*kP));
+	runrightsidedrive(-rightPower+(getGyroYaw()*kP));
 	}
 	Timer.delay(time);
 }
@@ -211,7 +211,7 @@ public void pause(double time)
 
 public void reset() {
 	//resetEncoders();
-	resetGyro();
+	resetGyroYaw();
 }
 
 public static double getLeftCurrent() {
@@ -249,7 +249,7 @@ public void resetEncoders() {
 	rightDriveEncoder.reset();
 }
 */
-
+/*
 public void calibrate_gyro()
 {
 	gyro.calibrate();
@@ -258,7 +258,7 @@ public void calibrate_gyro()
 public void resetGyro() {
 	gyro.reset();
 }
-
+*/
 public AHRS getAhrs() {
 	return ahrs;
 }
@@ -277,6 +277,10 @@ protected void initDefaultCommand() {
 	setDefaultCommand(new TankDrive());
 }
 
+public void updatePID() {
+	gyroPID.changePIDGains(NumberConstants.pGyro, NumberConstants.iGyro, NumberConstants.dGyro);
+	drivePID.changePIDGains(NumberConstants.pDrive, NumberConstants.iDrive, NumberConstants.dDrive);
+}
 
 
 
