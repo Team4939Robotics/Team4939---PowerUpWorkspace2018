@@ -28,10 +28,12 @@ public class TimedLeftAuto extends CommandGroup {
         addSequential(new PauseCommand(1));
         addSequential(new BoxStopIntake());
         //release box
-        addSequential(new PauseCommand(1));
-        addSequential(new DriveCommand (-0.35, -0.35, 0.6));
+    //    addSequential(new PauseCommand(1));
+        addSequential(new DriveCommand (-0.45, -0.45, 1));
         addSequential(new PlatformUp());
         //back up and bring platform down
+        addSequential(new DriveCommand (-0.75, -0.10, 0.85));
+        addSequential(new DriveCommand (-0.10, -0.75, 1));
     	}
     }
 }
