@@ -17,6 +17,7 @@ import org.usfirst.frc.team4939.robot.commands.*;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
+import edu.wpi.first.wpilibj.buttons.Trigger;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -63,16 +64,10 @@ public class OI {
 	private Button PlatformDown = new JoystickButton(ShooterController, 10);
     private Button PlatformUp = new JoystickButton(ShooterController, 9);
 	
-	/*
-	private button ClimberRaise = new JoystickButton();
-	private button ClimberClimb = new JoystickButton();
-	private button ClimberStop = new JoystickButton();
-	private button ClimberLock = new JoystickButton();
-	private button ClimberUnlock = new JoystickButton();
 	
+	private Trigger ClimberRaise = new JoystickButton(ShooterController, 3);
+	private Trigger ClimberClimb = new JoystickButton(ShooterController, 2);
 	
-
-	*/
 	public OI() {
 		this.BoxIntake.whileHeld(new BoxIntake());
 		this.BoxOuttake.whenPressed(new BoxOuttake());
@@ -84,21 +79,11 @@ public class OI {
 		this.PlatformDown.whileHeld(new PlatformDown());
 		this.PlatformUp.whileHeld(new PlatformUp());
 		
+		this.ClimberRaise.whenActive(new ClimberRaise());
+		this.ClimberRaise.whenInactive(new ClimberStop());
+		this.ClimberClimb.whenActive(new ClimberClimb());
+		this.ClimberClimb.whenInactive(new ClimberStop());
 	}
-	
-	
-	/*
-	public OI() {
-		
-		this.ClimberRaise.whenPressed(new ClimberRaise());
-		this.ClimberClimb.whenPressed(new ClimberClimb());
-		this.ClimberStop.whenPressed(new ClimberStop());
-		this.ClimberLock.whenPressed(new ClimberLock());
-		this.ClimberUnlock.whenPressed(new ClimberUnlock());
-		
-
-	}
-	*/
 	
 	public double left() {
 		double leftdrivestick = DriverController.getRawAxis(1);

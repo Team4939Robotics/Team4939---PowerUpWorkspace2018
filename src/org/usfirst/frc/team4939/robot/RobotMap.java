@@ -35,7 +35,8 @@ public class RobotMap {
 	//	public static final int CIMTop = 5;
 	//	public static final int CIMBottom = 6;
 		
-		public static final int climbMotor = 7;
+		public static final int climbMotor1 = 7;
+		public static final int climbMotor2 = 8;
 		
 	// Solenoids 
 		public static final int LeftPlatformPiston = 7;

@@ -32,6 +32,7 @@ public class Robot extends IterativeRobot {
 	public static final DriveSubsystem dt = new DriveSubsystem();
 	public static final PlatformSubsystem platform = new PlatformSubsystem();
 	public static final IntakeSubsystem intake = new IntakeSubsystem();
+	public static final ClimbSubsystem climber = new ClimbSubsystem();
 	public static final DigitalInput limitSwitch = new DigitalInput(1);
 	public static OI m_oi;
 	public static Compressor compressor;
