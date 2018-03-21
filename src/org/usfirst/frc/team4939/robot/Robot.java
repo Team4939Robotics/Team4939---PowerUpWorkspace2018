@@ -63,6 +63,8 @@ public class Robot extends IterativeRobot {
 		m_chooser.addObject("Right Start Timed :(", 1);
 		m_chooser.addObject("Center Start Timed :(", 2);
 		m_chooser.addObject("Turn Test :(", 3);
+		m_chooser.addObject("Left Two Cube :(", 4);
+
 		//SmartDashboard.putData("Auto modes", m_chooser);
 	}
 
@@ -117,6 +119,10 @@ public class Robot extends IterativeRobot {
 				break;
 			case 3:
 				m_autonomousCommand = new TurnCommand(90, 1, 3);
+				break;
+			case 4:
+				m_autonomousCommand = new TimedAutoLeftTwoCube(direction);
+
 		}
 //		m_autonomousCommand = new ReachBaseline();
 

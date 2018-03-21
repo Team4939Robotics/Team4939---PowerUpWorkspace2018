@@ -20,9 +20,9 @@ public class NumberConstants {
     //**************************************************************************
 	
 	//Competition
-	public static double pGyro 									 = 0.0125;
-	public static double iGyro 									 = 0.00;
-	public static double dGyro 									 = 0.00;
+	public static double pGyro 									 = 0.006;
+	public static double iGyro 									 = 0.0;
+	public static double dGyro 									 = 0.00001;
 	
 	//**************************************************************************
     //*************************** PID VALUES (CAMERA) **************************
