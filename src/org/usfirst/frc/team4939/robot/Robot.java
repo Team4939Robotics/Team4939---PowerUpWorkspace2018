@@ -178,40 +178,9 @@ public class Robot extends IterativeRobot {
 		updateSmartDashboard();
 	}
 	
-<<<<<<< HEAD
 	@Override
 	public void robotPeriodic() {
 		updateSmartDashboard();
-=======
-	public void updateSmartdashboard(){
-		SmartDashboard.putNumber("angle", Robot.dt.angle());
-        SmartDashboard.putNumber("rate", Robot.dt.rate());
-        SmartDashboard.putNumber("gyro yaw", Robot.dt.getGyroYaw());
-        
-        SmartDashboard.putNumber("Left Current", DriveSubsystem.getLeftCurrent());
-        SmartDashboard.putNumber("Right Current", DriveSubsystem.getRightCurrent());
-        
-        /*
-        SmartDashboard.putNumber("Left enc value", Robot.dt.getLeftEncoderDist());
-        SmartDashboard.putNumber("Right enc value", Robot.dt.getRightEncoderDist());
-        SmartDashboard.putNumber("Average enc value", Robot.dt.getAverageDistance());
-        */
-        
-        SmartDashboard.putBoolean("Pressure Low?", Robot.compressor.getPressureSwitchValue()); // why?
-        
-   //     SmartDashboard.putString("Switch positions", gameData);
-        
-        //SmartDashboard.putNumber("Ultrasonic Distance", Robot.ultrasonic.getDistance());
-	}
-	
-	public void calibratesensors(){
-		Robot.dt.calibrate_gyro();
-	}
-	
-	public void resetgyro(){
-		Robot.dt.resetGyroYaw();
-		Robot.dt.resetGyro();
->>>>>>> origin/master
 	}
 	
 	public void updateSmartDashboard(){
